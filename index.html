@@ -1,0 +1,1295 @@
+﻿import webbrowser
+import tempfile
+
+ai_system_html = """
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SINAI SMART CONCIERGE - v48</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --gold: #D4AF37;
+            --bg: #050505;
+            --card: #111;
+            --green: #2ed573;
+            --accent: #00d2ff;
+            --danger: #ff4757;
+            --text-color: #fff;
+            --border-color: #222;
+        }
+
+        .light-mode {
+            --gold: #997404;
+            --bg: #f4f4f9;
+            --card: #ffffff;
+            --green: #26af5a;
+            --accent: #0082b3;
+            --danger: #d63031;
+            --text-color: #333;
+            --border-color: #ccc;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text-color);
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), #000);
+            border-radius: 25px;
+            border: 1px solid var(--gold);
+            margin-bottom: 25px;
+            backdrop-filter: blur(10px);
+        }
+
+            .hero h1, .hero p {
+                color: var(--text-color);
+            }
+
+        .box {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+
+            .box h2 {
+                color: var(--gold);
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                font-size: 18px;
+                margin-top: 0;
+            }
+
+        .ai-chat {
+            background: var(--bg);
+            border: 1px solid var(--accent);
+            border-radius: 15px;
+            padding: 15px;
+        }
+
+        .ai-input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            background: var(--card);
+            color: var(--text-color);
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        .ai-reply {
+            background: rgba(0, 210, 255, 0.1);
+            border-left: 3px solid var(--accent);
+            padding: 12px;
+            border-radius: 5px;
+            min-height: 65px;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .btn-ask {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            background: var(--accent);
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: #fff;
+        }
+
+        .btn-success {
+            background: var(--green);
+            color: #fff;
+        }
+
+        .btn-theme {
+            background: var(--gold);
+            color: #000;
+        }
+
+        .lang-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 5px;
+            background: #333;
+            font-size: 10px;
+            margin-left: 5px;
+            color: var(--gold);
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 13px;
+            color: var(--text-color);
+        }
+
+            .data-table th, .data-table td {
+                border: 1px solid var(--border-color);
+                padding: 10px;
+                text-align: right;
+            }
+
+            .data-table th {
+                background: var(--bg);
+                color: var(--gold);
+            }
+
+            .data-table tr:nth-child(even) {
+                background-color: rgba(128, 128, 128, 0.1);
+            }
+
+        .widget-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .widget-card {
+            background: var(--card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+
+            .widget-card i {
+                font-size: 24px;
+                color: var(--gold);
+                margin-bottom: 10px;
+            }
+
+        .lang-selector-wrapper {
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(212, 175, 55, 0.05);
+            padding: 10px 15px;
+            border-radius: 10px;
+            border: 1px solid var(--gold);
+        }
+
+        .lang-select {
+            background: var(--card);
+            color: var(--text-color);
+            border: 1px solid var(--gold);
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            background: var(--card);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            border-radius: 5px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        .todo-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0,0,0,0.05);
+            padding: 8px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            border-right: 3px solid var(--gold);
+        }
+    </style>
+</head>
+<body onload="multiLangWelcome()">
+
+    <div class="container">
+        <div class="hero">
+            <div class="lang-selector-wrapper">
+                <div>
+                    <i class="fa fa-globe" style="color:var(--gold); margin-left:8px;"></i>
+                    <span id="langLabel" style="color: var(--gold); font-size: 13px; font-weight: bold;">اختر لغة الواجهة: </span>
+                </div>
+                <select id="languageSelector" class="lang-select" onchange="changeLanguage(this.value)">
+                    <option value="ar">العربية (Arabic)</option>
+                    <option value="en">English</option>
+                    <option value="ru">Русский (Russian)</option>
+                    <option value="it">Italiano (Italian)</option>
+                    <option value="de">Deutsch (German)</option>
+                </select>
+            </div>
+
+            <h1 id="appTitle" style="margin-top: 20px;">SINAI SMART CONCIERGE - v48</h1>
+            <p id="heroSubtitle" style="color: var(--gold);">خدمة النزلاء الذكية - أهلاً بكم في شرم الشيخ</p>
+            <div id="statusText" style="font-size:14px; color:var(--green);">System: Online 🟢</div>
+            <button class="btn-ask btn-theme" onclick="toggleTheme()" style="width: auto; padding: 5px 15px; margin-top: 10px; border-radius: 15px;"><i class="fa fa-adjust"></i> <span id="themeBtnText">تبديل الوضع</span></button>
+            <button class="btn-ask" style="width: auto; padding: 5px 15px; margin-top: 10px; border-radius: 15px; background:#444; color:#fff; border:1px solid var(--gold);" onclick="promptAdminMode()"><i class="fa fa-lock"></i> <span id="adminBtnText">لوحة المدير المالية (Secure)</span></button>
+        </div>
+
+        <div class="widget-grid">
+            <div class="widget-card">
+                <i class="fas fa-cloud-sun"></i>
+                <h4 id="weatherTitle">الطقس وجودة الهواء</h4>
+                <p style="color: var(--accent); font-weight: bold;">32°C / مشمس ☀️ | AQI: 35</p>
+            </div>
+            <div class="widget-card">
+                <i class="fas fa-money-bill-wave"></i>
+                <h4 id="currencyTitle">محول العملات (سريع)</h4>
+                <p style="font-size: 11px;">1 USD ≈ 48.50 EGP | 33 THB | 4.45 MYR</p>
+            </div>
+            <div class="widget-card">
+                <i class="fas fa-map-marked-alt"></i>
+                <h4 id="infoTitle">معلومة سريعة</h4>
+                <p style="color: var(--gold); font-size: 11px;">شرم الشيخ - مدينة السلام العالمية</p>
+            </div>
+            <div class="widget-card">
+                <i class="fas fa-phone-alt"></i>
+                <h4 id="emergencyTitle">طوارئ النجدة</h4>
+                <p style="color: var(--danger); font-weight: bold;">📞 122</p>
+            </div>
+        </div>
+
+        <div class="widget-grid" style="margin-top: 20px;">
+            <div class="box">
+                <h2 id="pillowHeadingText"><i class="fa fa-bed"></i> قائمة الراحة والوسائد (Smart Pillow)</h2>
+                <select id="pillowType" class="form-control">
+                    <option value="medical">وسادة طبية للرقبة (Medical Pillow)</option>
+                    <option value="feather">وسادة ريش النعام (Goose Down)</option>
+                    <option value="memory">وسادة ميموري فوم (Memory Foam)</option>
+                </select>
+                <select id="roomTemp" class="form-control">
+                    <option value="22">درجة حرارة الغرفة: 22°C</option>
+                    <option value="20">درجة حرارة الغرفة: 20°C</option>
+                    <option value="24">درجة حرارة الغرفة: 24°C</option>
+                </select>
+                <button class="btn-ask btn-theme" onclick="savePillowComfort()"><span id="pillowBtnText">حفظ الاختيارات 🛏️</span></button>
+                <div id="pillowOutput" class="ai-reply" style="display:none; font-size:12px;"></div>
+            </div>
+
+            <div class="box">
+                <h2 id="morningHeadingText"><i class="fa fa-sun"></i> ملخص الصباح الذكي</h2>
+                <button class="btn-ask" style="background:var(--accent); color:#000; border:none;" onclick="showMorningBriefing()"><span id="morningBtnText">عرض ملخص اليوم ☀️</span></button>
+                <div id="morningOutput" class="ai-reply" style="display:none; font-size:12px;"></div>
+            </div>
+        </div>
+
+        <div class="widget-grid" style="margin-top: 20px;">
+            <div class="box">
+                <h2 id="greenHeadingText"><i class="fa fa-leaf"></i> البرنامج الأخضر والخصوصية</h2>
+                <div style="margin-bottom:10px;">
+                    <input type="checkbox" id="greenService"> <label for="greenService" style="font-size:13px;">تفعيل الخدمة الخضراء (تقليل غسيل المناشف)</label>
+                </div>
+                <select id="dndStatus" class="form-control">
+                    <option value="ready">السماح بتنظيف الغرفة (Ready)</option>
+                    <option value="dnd">عدم الإزعاج (Do Not Disturb)</option>
+                    <option value="privacy">خدمة الغرف فقط (Privacy Required)</option>
+                </select>
+                <button class="btn-ask btn-success" onclick="saveGreenChoice()"><span id="greenBtnText">حفظ الإعدادات 🌿</span></button>
+                <div id="greenOutput" class="ai-reply" style="display:none; font-size:12px;"></div>
+            </div>
+
+            <div class="box">
+                <h2 id="destHeadingText"><i class="fa fa-map"></i> المستشار التفاعلي للمنتجع</h2>
+                <select id="destSelect" class="form-control">
+                    <option value="beach">شاطئ البحر (Beach)</option>
+                    <option value="spa">مركز السبا (Wellness Center)</option>
+                    <option value="pool">حمام السباحة (Main Pool)</option>
+                    <option value="restaurant">المطعم الرئيسي (Restaurant)</option>
+                </select>
+                <button class="btn-ask" style="background:var(--gold); color:#000;" onclick="calculateDistance()"><span id="destBtnText">توجيه ومسافة 🧭</span></button>
+                <div id="distanceOutput" class="ai-reply" style="display:none; font-size:12px;"></div>
+            </div>
+        </div>
+
+        <div class="widget-grid" style="margin-top: 20px;">
+            <div class="box">
+                <h2 id="scentHeadingText"><i class="fa fa-wind"></i> مساعد الأجواء والروائح الذكي (New)</h2>
+                <select id="roomScent" class="form-control">
+                    <option value="lavender">نسمة اللافندر (Relaxing Lavender)</option>
+                    <option value="ocean">انتعاش المحيط (Ocean Breeze)</option>
+                    <option value="jasmine">ياسمين شرقي (Eastern Jasmine)</option>
+                </select>
+                <select id="roomLight" class="form-control">
+                    <option value="soft_gold">إضاءة دافئة (Soft Gold)</option>
+                    <option value="romantic_blue">أزرق هادئ (Romantic Blue)</option>
+                    <option value="sunrise_bright">محاكاة الشروق (Sunrise Bright)</option>
+                </select>
+                <button class="btn-ask btn-theme" onclick="saveScentAndLight()"><span id="scentBtnText">تهيئة الأجواء ✨</span></button>
+                <div id="scentOutput" class="ai-reply" style="display:none; font-size:12px;"></div>
+            </div>
+
+            <div class="box">
+                <h2 id="storyHeadingText"><i class="fa fa-campground"></i> الراوي البدوي الرقمي (New)</h2>
+                <select id="bedouinTopic" class="form-control">
+                    <option value="stars">نجوم الصحراء (Bedouin Astronomy)</option>
+                    <option value="tea">سر الشاي البدوي (Desert Tea)</option>
+                    <option value="legends">الأساطير القديمة (Folklore)</option>
+                </select>
+                <button class="btn-ask" style="background:var(--accent); color:#000;" onclick="showBedouinStory()"><span id="storyBtnText">استمع للقصة ⛺</span></button>
+                <div id="storyOutput" class="ai-reply" style="display:none; font-size:12px;"></div>
+            </div>
+        </div>
+
+        <div class="widget-grid" style="margin-top: 20px;">
+            <div class="box" style="margin-bottom: 0px;">
+                <h2 id="aiHeadingText"><i class="fa fa-robot"></i> مساعدك الذكي (AI Assistant)</h2>
+                <div class="ai-chat">
+                    <input type="text" id="guestQuestion" class="ai-input" placeholder="اكتب استفسارك هنا...">
+                    <button class="btn-ask" onclick="askAI()"><span id="aiBtnText">إجابة سريعة ✨</span></button>
+                    <button class="btn-ask btn-danger" onclick="emergencyCall()"><i class="fa fa-phone"></i> <span id="emergencyBtnText">اتصال طوارئ سريع</span></button>
+                    <div id="aiResponse" class="ai-reply" style="margin-top:15px;">أهلاً بك! أنا هنا للإجابة عن أي استفسار لك في شرم الشيخ.</div>
+                </div>
+            </div>
+
+            <div class="box" style="margin-bottom: 0px;">
+                <h2 id="vipHeadingText"><i class="fa fa-user-tie"></i> الخادم الشخصي وخدمات الـ VIP</h2>
+                <select id="vipService" class="form-control">
+                    <option value="luggage">تجهيز وترتيب الأمتعة (Luggage Unpacking)</option>
+                    <option value="ironing">كي الملابس السريع (Express Ironing)</option>
+                    <option value="arabic_coffee">إعداد القهوة العربية (Arabic Coffee Service)</option>
+                    <option value="shoe_shine">خدمة تلميع الأحذية (Shoe Shine)</option>
+                </select>
+                <select id="vipPriority" class="form-control">
+                    <option value="low">أولوية عادية (Normal Priority)</option>
+                    <option value="medium">أولوية متوسطة (Medium Priority)</option>
+                    <option value="high">أولوية عاجلة (Urgent Priority)</option>
+                </select>
+                <button class="btn-ask btn-theme" onclick="requestVIPService()"><span id="vipBtnText">إرسال الطلب للخادم الشخصي 🤵</span></button>
+                <div id="vipOutput" class="ai-reply" style="display:none; font-size:12px;"></div>
+            </div>
+        </div>
+
+        <div class="widget-grid" style="margin-top: 20px;">
+            <div class="box" style="margin-bottom: 0px;">
+                <h2 id="mapHeadingText"><i class="fa fa-map-marked-alt"></i> خريطة الموقع الذكية (Smart Location Map)</h2>
+                <select id="locationSelect" class="form-control">
+                    <option value="farsha" id="locOpt1">فرشة كافيه - هضبة أم السيد</option>
+                    <option value="hospital" id="locOpt2">مستشفى شرم الشيخ الدولي - طريق السلام</option>
+                    <option value="fares" id="locOpt3">مطعم فارس للمأكولات البحرية - السوق القديم</option>
+                    <option value="soho" id="locOpt4">سوهو سكوير - خليج القرش</option>
+                </select>
+                <button class="btn-ask btn-theme" onclick="showLocationMap()"><span id="mapBtnText">عرض الموقع والاتجاهات 🗺️</span></button>
+                <div id="mapOutput" class="ai-reply" style="display:none; font-size:12px; margin-top:5px;"></div>
+            </div>
+
+            <div class="box" style="margin-bottom: 0px;">
+                <h2 id="fitnessHeadingText"><i class="fa fa-dumbbell"></i> المساعد الرياضي واليوغا (Fitness)</h2>
+                <select id="fitnessRoutine" class="form-control">
+                    <option value="yoga" id="fitOpt1">جلسة يوغا صباحية على الشاطئ</option>
+                    <option value="gym" id="fitOpt2">برنامج اللياقة البدنية في الجيم</option>
+                    <option value="swim" id="fitOpt3">الاسترخاء والتمارين المائية</option>
+                </select>
+                <button class="btn-ask btn-success" onclick="scheduleFitness()"><span id="fitBtnText">حجز الجدول الرياضي 🧘</span></button>
+                <div id="fitnessOutput" class="ai-reply" style="display:none; font-size:12px; margin-top:5px;"></div>
+            </div>
+        </div>
+
+        <div class="widget-grid" style="margin-top: 20px;">
+            <div class="box" style="margin-bottom: 0px;">
+                <h2 id="conciergeHeadingText"><i class="fa fa-concierge-bell"></i> الخدمات المباشرة</h2>
+                <input type="text" id="guestName" class="form-control" placeholder="اسم النزيل / رقم الغرفة">
+                <input type="text" id="guestRequest" class="form-control" placeholder="اطلب (مثل: 2 قهوة، تاكسي، صيانة)">
+                <button class="btn-ask btn-success" onclick="addRequest()"><i class="fa fa-save"></i> <span id="conciergeBtnText">إرسال الطلب</span></button>
+                <div id="requestStatus" style="font-size: 13px; color: var(--green); margin-top: 5px;"></div>
+            </div>
+
+            <div class="box" style="margin-bottom: 0px;">
+                <h2 id="spaHeadingText"><i class="fa fa-spa"></i> إدارة السبا (Spa Dashboard)</h2>
+                <select id="spaService" class="form-control">
+                    <option value="900">مساج سويدي (60 دقيقة) - 900 EGP</option>
+                    <option value="1200">جلسة استرخاء ملكية (90 دقيقة) - 1,200 EGP</option>
+                    <option value="500">حمام جاكوزي وساونا - 500 EGP</option>
+                </select>
+                <input type="text" id="spaGuestRoom" class="form-control" placeholder="رقم الغرفة">
+                <button class="btn-ask" style="background: var(--gold); color: #000;" onclick="addSpaBooking()"><span id="spaBtnText">تأكيد حجز السبا</span></button>
+                <div id="spaOutput" class="ai-reply" style="display:none; font-size: 12px; margin-top: 5px;"></div>
+            </div>
+        </div>
+
+        <div class="widget-grid" style="margin-top: 20px;">
+            <div class="box" style="margin-bottom: 0px;">
+                <h2 id="travelHeadingText"><i class="fa fa-plane"></i> حاسبة السفر (شرق آسيا)</h2>
+                <input type="number" id="egpAmount" class="form-control" placeholder="المبلغ بالجنيه المصري (EGP)">
+                <button class="btn-ask" onclick="calculateTravelCurrency()" style="background: var(--accent); color: #000;"><span id="travelBtnText">تحويل العملات</span></button>
+                <div id="travelOutput" class="ai-reply" style="display:none; font-size: 12px; margin-top: 5px;"></div>
+            </div>
+
+            <div class="box" style="margin-bottom: 0px;">
+                <h2 id="transHeadingText"><i class="fa fa-language"></i> المترجم الفوري الذكي</h2>
+                <input type="text" id="inputTextToTranslate" class="form-control" placeholder="اكتب عبارة قصيرة">
+                <select id="translationTarget" class="form-control">
+                    <option value="en">الإنجليزية (English)</option>
+                    <option value="ru">الروسية (Russian)</option>
+                    <option value="it">الإيطالية (Italian)</option>
+                    <option value="de">Deutsch (German)</option>
+                </select>
+                <button class="btn-ask btn-theme" onclick="translateText()"><span id="transBtnText">ترجمة 🔤</span></button>
+                <div id="translationOutput" class="ai-reply" style="display:none; font-size:12px; margin-top:5px;"></div>
+            </div>
+        </div>
+
+        <div class="widget-grid" style="margin-top: 20px;">
+            <div class="box" style="margin-bottom: 0px;">
+                <h2 id="sunHeadingText"><i class="fa fa-sun"></i> مساعد الشمس والغطس</h2>
+                <p style="font-size:12px; color: #888;">احسب نسبة الأشعة فوق البنفسجية وتنبيهات المياه.</p>
+                <button class="btn-ask" style="background:var(--green); border:none; color:#fff;" onclick="checkSunSafety()"><span id="sunBtnText">فحص أمان الشمس ☀️</span></button>
+                <div id="sunOutput" class="ai-reply" style="display:none; font-size:12px; margin-top:5px;"></div>
+            </div>
+
+            <div class="box" style="margin-bottom: 0px;">
+                <h2 id="moodHeadingText"><i class="fa fa-compass"></i> مستشار المزاج السياحي</h2>
+                <select id="moodSelect" class="form-control">
+                    <option value="relax">أريد الاسترخاء والهدوء 🧘‍♂️</option>
+                    <option value="adventure">أريد المغامرة والنشاط 🏎️</option>
+                    <option value="night">أريد سهرات وحفلات موسيقية 🎵</option>
+                </select>
+                <button class="btn-ask" style="background:var(--accent); color:#000;" onclick="giveMoodAdvice()"><span id="moodBtnText">احصل على اقتراح 💡</span></button>
+                <div id="moodOutput" class="ai-reply" style="display:none; font-size:12px; margin-top:10px;"></div>
+            </div>
+        </div>
+
+        <div class="widget-grid" style="margin-top: 20px;">
+            <div class="box" style="margin-bottom: 0px;">
+                <h2 id="wakeHeadingText"><i class="fa fa-bell"></i> خدمة الإيقاظ (Wake-up Call)</h2>
+                <input type="text" id="roomWakeUp" class="form-control" placeholder="رقم الغرفة">
+                <input type="time" id="timeWakeUp" class="form-control">
+                <button class="btn-ask btn-theme" style="background:var(--green); color:#fff; border:none;" onclick="addWakeUpCall()"><span id="wakeBtnText">تأكيد الطلب</span></button>
+                <div id="wakeUpOutput" class="ai-reply" style="display:none; font-size:12px; margin-top:5px;"></div>
+            </div>
+
+            <div class="box" style="margin-bottom: 0px;">
+                <h2 id="rateHeadingText"><i class="fa fa-star"></i> تقييم الخدمة</h2>
+                <select id="ratingScore" class="form-control">
+                    <option value="5">ممتاز (5/5) ⭐⭐⭐⭐⭐</option>
+                    <option value="4">جيد جداً (4/5) ⭐⭐⭐⭐</option>
+                    <option value="3">جيد (3/5) ⭐⭐⭐</option>
+                </select>
+                <input type="text" id="guestFeedbackNote" class="form-control" placeholder="ملاحظاتك (اختياري)...">
+                <button class="btn-ask" style="background: var(--gold); color: #000;" onclick="submitFeedback()"><span id="rateBtnText">إرسال التقييم</span></button>
+                <div id="feedbackOutput" class="ai-reply" style="display:none; font-size: 12px; margin-top: 5px;"></div>
+            </div>
+        </div>
+
+        <div id="secureDashboard" style="display: none;">
+            <div class="widget-grid" style="margin-top: 20px;">
+                <div class="box" style="margin-bottom: 0px;">
+                    <h2 id="calcHeadingText"><i class="fa fa-calculator"></i> حاسبة الخدمة والإكراميات</h2>
+                    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                        <input type="number" id="billAmount" class="form-control" placeholder="قيمة الفاتورة" style="flex:1; margin-bottom: 0;">
+                        <input type="number" id="tipPercentage" class="form-control" value="10" placeholder="%" style="flex:1; margin-bottom: 0;">
+                        <button class="btn-ask" onclick="calculateTip()" style="margin-bottom: 0; flex:1;"><span id="calcBtnText">احسب 💰</span></button>
+                    </div>
+                    <div id="tipResult" class="ai-reply" style="margin-top: 10px; display: none;"></div>
+                </div>
+
+                <div class="box" style="margin-bottom: 0px;">
+                    <h2 id="tasksHeadingText"><i class="fa fa-tasks"></i> المتابعة اليومية والمهام</h2>
+                    <input type="text" id="taskInput" class="form-control" placeholder="إضافة مهمة سريعة...">
+                    <button class="btn-ask btn-theme" onclick="addTask()"><i class="fa fa-plus"></i> <span id="addTaskBtnText">إضافة</span></button>
+                    <div id="taskList" style="max-height: 100px; overflow-y: auto;"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="box" style="margin-top: 20px;">
+            <h2 id="dbHeadingText"><i class="fa fa-database"></i> الخدمات الشاملة</h2>
+            <div style="overflow-x:auto;">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>القسم</th>
+                            <th>الاسم</th>
+                            <th>العنوان/الموقع</th>
+                            <th>المنيو / الخدمات / الطلبات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>مطاعم</td><td>فارس للمأكولات البحرية</td><td>السوق القديم، إل ميركاتو، نبق</td><td>شوربة سي فود، أرز بالجمبري. (اقتصادي)</td></tr>
+                        <tr><td>مطاعم</td><td>مطعم المصريين</td><td>السوق التجاري، خليج نعمة</td><td>مشويات، طواجن. (اقتصادي)</td></tr>
+                        <tr><td>مطاعم</td><td>مطعم البلدي</td><td>خليج نعمة</td><td>أطباق مصرية، حمام محشي، ملوخية (24 ساعة).</td></tr>
+                        <tr><td>كافيهات</td><td>فرشة كافيه</td><td>هضبة أم السيد</td><td>مشروبات، شيشة، إطلالة بحرية.</td></tr>
+                        <tr><td>مستشفيات</td><td>مستشفى شرم الشيخ الدولي</td><td>طريق السلام</td><td>قسم طوارئ مجهز بالكامل (24 ساعة).</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const translations = {
+        ar: {
+        appTitle: "SINAI SMART CONCIERGE - v48",
+        heroSubtitle: "خدمة النزلاء الذكية - أهلاً بكم في شرم الشيخ",
+        statusText: "System: Online 🟢",
+        langLabel: "اختر لغة الواجهة: ",
+        weatherTitle: "الطقس وجودة الهواء",
+        currencyTitle: "محول العملات (سريع)",
+        infoTitle: "معلومة سريعة",
+        emergencyTitle: "طوارئ النجدة",
+        pillowHeading: "قائمة الراحة والوسائد (Smart Pillow)",
+        morningHeading: "ملخص الصباح الذكي",
+        greenHeading: "البرنامج الأخضر والخصوصية",
+        destHeading: "المستشار التفاعلي للمنتجع",
+        scentHeading: "مساعد الأجواء والروائح الذكي (New)",
+        storyHeading: "الراوي البدوي الرقمي (New)",
+        aiHeading: "مساعدك الذكي (AI Assistant)",
+        conciergeHeading: "الخدمات المباشرة",
+        spaHeading: "إدارة السبا (Spa Dashboard)",
+        travelHeading: "حاسبة السفر (شرق آسيا)",
+        transHeading: "المترجم الفوري الذكي",
+        sunHeading: "مساعد الشمس والغطس",
+        moodHeading: "مستشار المزاج السياحي",
+        wakeHeading: "خدمة الإيقاظ (Wake-up Call)",
+        rateHeading: "تقييم الخدمة",
+        calcHeading: "حاسبة الخدمة والإكراميات",
+        tasksHeading: "المتابعة اليومية والمهام",
+        dbHeading: "الخدمات الشاملة",
+        vipHeading: "الخادم الشخصي وخدمات الـ VIP",
+        mapHeading: "خريطة الموقع الذكية (Smart Location Map)",
+        fitnessHeading: "المساعد الرياضي واليوغا (Fitness)",
+        themeBtn: "تبديل الوضع",
+        adminBtn: "لوحة المدير المالية (Secure)",
+        pillowBtn: "حفظ الاختيارات 🛏️",
+        morningBtn: "عرض ملخص اليوم ☀️",
+        greenBtn: "حفظ الإعدادات 🌿",
+        destBtn: "توجيه ومسافة 🧭",
+        scentBtn: "تهيئة الأجواء ✨",
+        storyBtn: "استمع للقصة ⛺",
+        aiBtn: "إجابة سريعة ✨",
+        emergencyBtn: "اتصال طوارئ سريع",
+        vipBtn: "إرسال الطلب للخادم الشخصي 🤵",
+        conciergeBtn: "إرسال الطلب",
+        spaBtn: "تأكيد حجز السبا",
+        travelBtn: "تحويل العملات",
+        transBtn: "ترجمة 🔤",
+        sunBtn: "فحص أمان الشمس ☀️",
+        moodBtn: "احصل على اقتراح 💡",
+        wakeBtn: "تأكيد الطلب",
+        rateBtn: "إرسال التقييم",
+        calcBtn: "احسب 💰",
+        addTaskBtn: "إضافة",
+        mapBtn: "عرض الموقع والاتجاهات 🗺️",
+        fitBtn: "حجز الجدول الرياضي 🧘",
+        farshaOpt: "فرشة كافيه - هضبة أم السيد",
+        hospitalOpt: "مستشفى شرم الشيخ الدولي - طريق السلام",
+        faresOpt: "مطعم فارس للمأكولات البحرية - السوق القديم",
+        sohoOpt: "سوهو سكوير - خليج القرش",
+        fitOpt1Text: "جلسة يوغا صباحية على الشاطئ",
+        fitOpt2Text: "برنامج اللياقة البدنية في الجيم",
+        fitOpt3Text: "الاسترخاء والتمارين المائية"
+        },
+        en: {
+        appTitle: "SINAI SMART CONCIERGE - v48",
+        heroSubtitle: "Smart Guest Services - Welcome to Sharm El-Sheikh",
+        statusText: "System: Online 🟢",
+        langLabel: "Choose Language: ",
+        weatherTitle: "Weather & Air Quality",
+        currencyTitle: "Quick Currency Converter",
+        infoTitle: "Quick Info",
+        emergencyTitle: "Emergency",
+        pillowHeading: "Smart Pillow Menu",
+        morningHeading: "Morning Briefing",
+        greenHeading: "Green Program & Privacy",
+        destHeading: "Resort Interactive Guide",
+        scentHeading: "Smart Scent & Lighting Assistant",
+        storyHeading: "Digital Bedouin Storyteller",
+        aiHeading: "AI Assistant",
+        conciergeHeading: "Direct Services",
+        spaHeading: "Spa Dashboard",
+        travelHeading: "Travel Calculator (East Asia)",
+        transHeading: "Smart Instant Translator",
+        sunHeading: "Sun & Snorkeling Helper",
+        moodHeading: "Interactive Tourist Mood Advisor",
+        wakeHeading: "Wake-up Call Service",
+        rateHeading: "Rate Service",
+        calcHeading: "Service & Tip Calculator",
+        tasksHeading: "Daily Follow-up & Tasks",
+        dbHeading: "All Services & Facilities",
+        vipHeading: "VIP Butler Services",
+        mapHeading: "Smart Location Map",
+        fitnessHeading: "Fitness & Yoga Assistant",
+        themeBtn: "Toggle Theme",
+        adminBtn: "Financial Admin Panel",
+        pillowBtn: "Save Choices 🛏️",
+        morningBtn: "Show Today's Briefing ☀️",
+        greenBtn: "Save Settings 🌿",
+        destBtn: "Get Directions 🧭",
+        scentBtn: "Set Ambience ✨",
+        storyBtn: "Listen to Story ⛺",
+        aiBtn: "Quick Answer ✨",
+        emergencyBtn: "Emergency Call",
+        vipBtn: "Send Butler Request 🤵",
+        conciergeBtn: "Send Request",
+        spaBtn: "Confirm Spa Booking",
+        travelBtn: "Convert Currency",
+        transBtn: "Translate 🔤",
+        sunBtn: "Check Sun Safety ☀️",
+        moodBtn: "Get Suggestion 💡",
+        wakeBtn: "Confirm Order",
+        rateBtn: "Submit Rating",
+        calcBtn: "Calculate 💰",
+        addTaskBtn: "Add",
+        mapBtn: "Show Location & Directions 🗺️",
+        fitBtn: "Reserve Fitness Routine 🧘",
+        farshaOpt: "Farsha Mountain Lounge - Om El Seid Hill",
+        hospitalOpt: "Sharm El-Sheikh International Hospital - Peace Road",
+        faresOpt: "Fares Seafood Restaurant - Old Market",
+        sohoOpt: "Soho Square - Shark's Bay",
+        fitOpt1Text: "Morning Beach Yoga Session",
+        fitOpt2Text: "Gym Fitness Routine",
+        fitOpt3Text: "Relaxation and Aquatic Exercises"
+        },
+        ru: {
+        appTitle: "SINAI SMART CONCIERGE - v48",
+        heroSubtitle: "Умные услуги для гостей - Добро пожаловать в Шарм-эль-Шейх",
+        statusText: "Система: Онлайн 🟢",
+        langLabel: "Выберите язык: ",
+        weatherTitle: "Погода и качество воздуха",
+        currencyTitle: "Конвертер валют",
+        infoTitle: "Полезная информация",
+        emergencyTitle: "Экстренная служба",
+        pillowHeading: "Меню умных подушек",
+        morningHeading: "Утренний брифинг",
+        greenHeading: "Зеленая программа и конфиденциальность",
+        destHeading: "Интерактивный путеводитель по курорту",
+        scentHeading: "Умный помощник по ароматам",
+        storyHeading: "Цифровой бедуинский рассказчик",
+        aiHeading: "Умный помощник",
+        conciergeHeading: "Прямые услуги",
+        spaHeading: "Панель управления спа",
+        travelHeading: "Калькулятор путешествий",
+        transHeading: "Умный переводчик",
+        sunHeading: "Помощник по солнцу и дайвингу",
+        moodHeading: "Советник по настроению",
+        wakeHeading: "Услуга пробуждения",
+        rateHeading: "Оценить услугу",
+        calcHeading: "Калькулятор чаевых",
+        tasksHeading: "Ежедневные задачи",
+        dbHeading: "Все услуги и удобства",
+        vipHeading: "VIP Услуги дворецкого",
+        mapHeading: "Умная карта местности",
+        fitnessHeading: "Помощник по фитнесу и йоге",
+        themeBtn: "Сменить тему",
+        adminBtn: "Финансовая панель",
+        pillowBtn: "Сохранить выбор 🛏️",
+        morningBtn: "Показать утренний брифинг ☀️",
+        greenBtn: "Сохранить настройки 🌿",
+        destBtn: "Маршрут и расстояние 🧭",
+        scentBtn: "Создать атмосферу ✨",
+        storyBtn: "Слушать историю ⛺",
+        aiBtn: "Быстрый ответ ✨",
+        emergencyBtn: "Экстренный вызов",
+        vipBtn: "Отправить запрос дворецкому 🤵",
+        conciergeBtn: "Отправить запрос",
+        spaBtn: "Подтвердить спа-бронирование",
+        travelBtn: "Конвертировать валюту",
+        transBtn: "Перевести 🔤",
+        sunBtn: "Проверить защиту от солнца ☀️",
+        moodBtn: "Получить совет 💡",
+        wakeBtn: "Подтвердить заказ",
+        rateBtn: "Отправить отзыв",
+        calcBtn: "Рассчитать 💰",
+        addTaskBtn: "Добавить",
+        mapBtn: "Показать местоположение 🗺️",
+        fitBtn: "Забронировать тренировку 🧘",
+        farshaOpt: "Farsha Mountain Lounge - Om El Seid",
+        hospitalOpt: "Международная больница - Peace Rd",
+        faresOpt: "Рыбный ресторан Fares - Old Market",
+        sohoOpt: "Soho Square - Shark's Bay",
+        fitOpt1Text: "Утренняя йога на пляже",
+        fitOpt2Text: "Фитнес-программа в спортзале",
+        fitOpt3Text: "Релаксация и водные упражнения"
+        },
+        it: {
+        appTitle: "SINAI SMART CONCIERGE - v48",
+        heroSubtitle: "Servizi Ospiti Intelligenti - Benvenuti a Sharm El-Sheikh",
+        statusText: "Sistema: Online 🟢",
+        langLabel: "Scegli la lingua: ",
+        weatherTitle: "Meteo e Qualità Aria",
+        currencyTitle: "Convertitore di Valuta",
+        infoTitle: "Informazioni Veloci",
+        emergencyTitle: "Emergenza",
+        pillowHeading: "Menu dei cuscini intelligenti",
+        morningHeading: "Briefing mattutino",
+        greenHeading: "Programma ecologico e privacy",
+        destHeading: "Guida interattiva del resort",
+        scentHeading: "Assistente luci e profumi",
+        storyHeading: "Narratore digitale beduino",
+        aiHeading: "Assistente AI",
+        conciergeHeading: "Servizi diretti",
+        spaHeading: "Dashboard Spa",
+        travelHeading: "Convertitore di valuta",
+        transHeading: "Traduttore intelligente",
+        sunHeading: "Aiuto per sole e snorkeling",
+        moodHeading: "Consigliere di viaggio",
+        wakeHeading: "Servizio sveglia",
+        rateHeading: "Valuta il servizio",
+        calcHeading: "Calcolatore di mance",
+        tasksHeading: "Attività quotidiane",
+        dbHeading: "Tutti i servizi e le strutture",
+        vipHeading: "Servizi di maggiordomo VIP",
+        mapHeading: "Mappa intelligente del percorso",
+        fitnessHeading: "Assistente Fitness e Yoga",
+        themeBtn: "Cambia tema",
+        adminBtn: "Pannello amministrativo",
+        pillowBtn: "Salva le scelte 🛏️",
+        morningBtn: "Mostra il briefing ☀️",
+        greenBtn: "Salva impostazioni 🌿",
+        destBtn: "Ottieni indicazioni 🧭",
+        scentBtn: "Imposta atmosfera ✨",
+        storyBtn: "Ascolta la storia ⛺",
+        aiBtn: "Risposta rapida ✨",
+        emergencyBtn: "Chiamata di emergenza",
+        vipBtn: "Invia richiesta maggiordomo 🤵",
+        conciergeBtn: "Invia richiesta",
+        spaBtn: "Conferma prenotazione",
+        travelBtn: "Converti valuta",
+        transBtn: "Traduci 🔤",
+        sunBtn: "Controllo sicurezza sole ☀️",
+        moodBtn: "Ottieni suggerimento 💡",
+        wakeBtn: "Conferma ordine",
+        rateBtn: "Invia valutazione",
+        calcBtn: "Calcola 💰",
+        addTaskBtn: "Aggiungi",
+        mapBtn: "Mostra posizione 🗺️",
+        fitBtn: "Prenota routine 🧘",
+        farshaOpt: "Farsha Mountain Lounge - Collina di Om El Seid",
+        hospitalOpt: "Ospedale Internazionale - Peace Road",
+        faresOpt: "Ristorante Fares - Old Market",
+        sohoOpt: "Soho Square - Shark's Bay",
+        fitOpt1Text: "Sessione di Yoga al mattino",
+        fitOpt2Text: "Routine Fitness in palestra",
+        fitOpt3Text: "Esercizi in acqua e relax"
+        },
+        de: {
+        appTitle: "SINAI SMART CONCIERGE - v48",
+        heroSubtitle: "Intelligenter Gästeservice - Willkommen in Sharm El-Sheikh",
+        statusText: "System: Online 🟢",
+        langLabel: "Sprache wählen: ",
+        weatherTitle: "Wetter & Luftqualität",
+        currencyTitle: "Schnellwährungsumrechner",
+        infoTitle: "Schnelle Info",
+        emergencyTitle: "Notfall",
+        pillowHeading: "Smart-Kissen-Menü",
+        morningHeading: "Morgen-Briefing",
+        greenHeading: "Grünes Programm und Datenschutz",
+        destHeading: "Interaktiver Resort-Führer",
+        scentHeading: "Smart-Duftassistent",
+        storyHeading: "Digitaler Beduinen-Erzähler",
+        aiHeading: "KI-Assistent",
+        conciergeHeading: "Direkte Dienste",
+        spaHeading: "Spa-Dashboard",
+        travelHeading: "Reisekostenrechner",
+        transHeading: "Intelligenter Übersetzer",
+        sunHeading: "Sonnen- und Schnorchel-Helfer",
+        moodHeading: "Stimmungsberater",
+        wakeHeading: "Weckdienst",
+        rateHeading: "Bewertungsservice",
+        calcHeading: "Service- und Trinkgeldrechner",
+        tasksHeading: "Tägliche Aufgaben",
+        dbHeading: "Alle Dienste und Einrichtungen",
+        vipHeading: "VIP-Butler-Dienste",
+        mapHeading: "Smart-Standortkarte",
+        fitnessHeading: "Fitness & Yoga Assistent",
+        themeBtn: "Thema wechseln",
+        adminBtn: "Verwaltungspanel",
+        pillowBtn: "Auswahl speichern 🛏️",
+        morningBtn: "Morgen-Briefing anzeigen ☀️",
+        greenBtn: "Einstellungen speichern 🌿",
+        destBtn: "Wegbeschreibung 🧭",
+        scentBtn: "Atmosphäre einstellen ✨",
+        storyBtn: "Geschichte anhören ⛺",
+        aiBtn: "Schnelle Antwort ✨",
+        emergencyBtn: "Notruf",
+        vipBtn: "Butler-Anfrage senden 🤵",
+        conciergeBtn: "Anfrage senden",
+        spaBtn: "Spa-Buchung bestätigen",
+        travelBtn: "Währung umrechnen",
+        transBtn: "Übersetzen 🔤",
+        sunBtn: "Sonnenschutz prüfen ☀️",
+        moodBtn: "Vorschlag erhalten 💡",
+        wakeBtn: "Bestellung bestätigen",
+        rateBtn: "Bewertung abgeben",
+        calcBtn: "Berechnen 💰",
+        addTaskBtn: "Hinzufügen",
+        mapBtn: "Ort anzeigen 🗺️",
+        fitBtn: "Fitnessroutine buchen 🧘",
+        farshaOpt: "Farsha Mountain Lounge - Om El Seid Hügel",
+        hospitalOpt: "Internationales Krankenhaus - Peace Road",
+        faresOpt: "Fares Fischrestaurant - Old Market",
+        sohoOpt: "Soho Square - Shark's Bay",
+        fitOpt1Text: "Morgendliche Yoga-Sitzung",
+        fitOpt2Text: "Fitness-Routine im Fitnessstudio",
+        fitOpt3Text: "Entspannung & Wasserübungen"
+        }
+        };
+
+        function getLangTag() {
+        const langMap = {
+        ar: 'ar-EG',
+        en: 'en-US',
+        ru: 'ru-RU',
+        it: 'it-IT',
+        de: 'de-DE'
+        };
+        const lang = document.getElementById('languageSelector').value;
+        return langMap[lang] || 'ar-EG';
+        }
+
+        function changeLanguage(lang) {
+        const t = translations[lang] || translations['ar'];
+        document.getElementById('appTitle').innerText = t.appTitle;
+        document.getElementById('heroSubtitle').innerText = t.heroSubtitle;
+        document.getElementById('statusText').innerText = t.statusText;
+        document.getElementById('langLabel').innerText = t.langLabel;
+        document.getElementById('weatherTitle').innerText = t.weatherTitle;
+        document.getElementById('currencyTitle').innerText = t.currencyTitle;
+        document.getElementById('infoTitle').innerText = t.infoTitle;
+        document.getElementById('emergencyTitle').innerText = t.emergencyTitle;
+
+        document.getElementById('pillowHeadingText').innerText = t.pillowHeading;
+        document.getElementById('morningHeadingText').innerText = t.morningHeading;
+        document.getElementById('greenHeadingText').innerText = t.greenHeading;
+        document.getElementById('destHeadingText').innerText = t.destHeading;
+        document.getElementById('scentHeadingText').innerText = t.scentHeading;
+        document.getElementById('storyHeadingText').innerText = t.storyHeading;
+        document.getElementById('aiHeadingText').innerText = t.aiHeading;
+        document.getElementById('conciergeHeadingText').innerText = t.conciergeHeading;
+        document.getElementById('spaHeadingText').innerText = t.spaHeading;
+        document.getElementById('travelHeadingText').innerText = t.travelHeading;
+        document.getElementById('transHeadingText').innerText = t.transHeading;
+        document.getElementById('sunHeadingText').innerText = t.sunHeading;
+        document.getElementById('moodHeadingText').innerText = t.moodHeading;
+        document.getElementById('wakeHeadingText').innerText = t.wakeHeading;
+        document.getElementById('rateHeadingText').innerText = t.rateHeading;
+        document.getElementById('calcHeadingText').innerText = t.calcHeading;
+        document.getElementById('tasksHeadingText').innerText = t.tasksHeading;
+        document.getElementById('dbHeadingText').innerText = t.dbHeading;
+        document.getElementById('vipHeadingText').innerText = t.vipHeading;
+        document.getElementById('mapHeadingText').innerText = t.mapHeading;
+        document.getElementById('fitnessHeadingText').innerText = t.fitnessHeading;
+
+        document.getElementById('themeBtnText').innerText = t.themeBtn;
+        document.getElementById('adminBtnText').innerText = t.adminBtn;
+        document.getElementById('pillowBtnText').innerText = t.pillowBtn;
+        document.getElementById('morningBtnText').innerText = t.morningBtn;
+        document.getElementById('greenBtnText').innerText = t.greenBtn;
+        document.getElementById('destBtnText').innerText = t.destBtn;
+        document.getElementById('scentBtnText').innerText = t.scentBtn;
+        document.getElementById('storyBtnText').innerText = t.storyBtn;
+        document.getElementById('aiBtnText').innerText = t.aiBtn;
+        document.getElementById('emergencyBtnText').innerText = t.emergencyBtn;
+        document.getElementById('vipBtnText').innerText = t.vipBtn;
+        document.getElementById('conciergeBtnText').innerText = t.conciergeBtn;
+        document.getElementById('spaBtnText').innerText = t.spaBtn;
+        document.getElementById('travelBtnText').innerText = t.travelBtn;
+        document.getElementById('transBtnText').innerText = t.transBtn;
+        document.getElementById('sunBtnText').innerText = t.sunBtn;
+        document.getElementById('moodBtnText').innerText = t.moodBtn;
+        document.getElementById('wakeBtnText').innerText = t.wakeBtn;
+        document.getElementById('rateBtnText').innerText = t.rateBtn;
+        document.getElementById('calcBtnText').innerText = t.calcBtn;
+        document.getElementById('addTaskBtnText').innerText = t.addTaskBtn;
+        document.getElementById('mapBtnText').innerText = t.mapBtn;
+        document.getElementById('fitBtnText').innerText = t.fitBtn;
+
+        document.getElementById('locOpt1').innerText = t.farshaOpt;
+        document.getElementById('locOpt2').innerText = t.hospitalOpt;
+        document.getElementById('locOpt3').innerText = t.faresOpt;
+        document.getElementById('locOpt4').innerText = t.sohoOpt;
+
+        document.getElementById('fitOpt1').innerText = t.fitOpt1Text;
+        document.getElementById('fitOpt2').innerText = t.fitOpt2Text;
+        document.getElementById('fitOpt3').innerText = t.fitOpt3Text;
+
+        say("Language changed.", getLangTag());
+        }
+
+        async function multiLangWelcome() {
+        const greetings = [
+        { text: "Welcome to Sinai Smart Concierge. System ready.", lang: "en-US" },
+        { text: "Добро пожаловать. Система готова.", lang: "ru-RU" },
+        { text: "Benvenuti al sistema. Il sistema è pronto.", lang: "it-IT" },
+        { text: "Willkommen beim System. Das System ist bereit.", lang: "de-DE" },
+        { text: "مرحباً بك في خدمة النزلاء الذكية، النظام جاهز.", lang: "ar-EG" }
+        ];
+
+        const currentLang = document.getElementById('languageSelector').value;
+        let currentSpeechLang = 'ar-EG';
+        if (currentLang === 'en') currentSpeechLang = 'en-US';
+        else if (currentLang === 'ru') currentSpeechLang = 'ru-RU';
+        else if (currentLang === 'it') currentSpeechLang = 'it-IT';
+        else if (currentLang === 'de') currentSpeechLang = 'de-DE';
+
+        for (let i = 0; i < greetings.length; i++) {
+        if (greetings[i].lang.startsWith(currentLang) || (currentLang === 'ar' && greetings[i].lang === 'ar-EG')) {
+        await new Promise(resolve => {
+        const msg = new SpeechSynthesisUtterance(greetings[i].text);
+        msg.lang = greetings[i].lang;
+        msg.onend = resolve;
+        window.speechSynthesis.speak(msg);
+        });
+        break;
+        }
+        }
+        }
+
+        function askAI() {
+        const question = document.getElementById('guestQuestion').value.trim().toLowerCase();
+        const responseDiv = document.getElementById('aiResponse');
+
+        const knowledge = [
+        { keywords: ["كافيه", "كافيهات", "فرشة", "شيشة", "مشروب"], answer: "فرشة كافيه (Farsha Mountain Lounge): يقع على هضبة أم السيد. يتميز بإطلالة بحرية ساحرة وطابع بدوي بوهيمي رائع. يقدم المشروبات والشيشة، ويوفر جلسات استرخاء رائعة وقت الغروب." },
+        { keywords: ["مطعم", "مطاعم", "اكل", "طعام", "فارس", "مصريين", "البلدي"], answer: "أفضل المطاعم القريبة: مطعم فارس للمأكولات البحرية (السوق القديم)، مطعم المصريين (خليج نعمة)، ومطعم البلدي (خليج نعمة - يعمل 24 ساعة ويقدم أطباقاً مصرية أصيلة)." },
+        { keywords: ["تاكسي", "مواصلات", "توصيل", "مشوار", "سعر"], answer: "أسعار المواصلات: تتوفر سيارات الأجرة (تاكسي) أمام المنتجع مباشرة. تبدأ أسعار الرحلات القصيرة داخل خليج نعمة من 50 إلى 100 جنيه مصري." },
+        { keywords: ["مستشفى", "طوارئ", "صيدلية", "طبيب"], answer: "الخدمات الطبية: مستشفى شرم الشيخ الدولي تقع على طريق السلام، مجهزة بالكامل ومفتوحة 24/7. اتصل بـ 122 للطوارئ." },
+        { keywords: ["واي فاي", "انترنت", "نت"], answer: "شبكة الإنترنت (Wi-Fi): متوفرة في جميع أنحاء المنتجع مجاناً. اسم الشبكة هو FourSeasons-Guest، ويمكنك الدخول باستخدام رقم الغرفة والاسم الأخير." },
+        { keywords: ["سبا", "مساج", "ساونا", "جاكوزي"], answer: "السبا (Spa): متاح من 9 صباحاً حتى 8 مساءً. يقدم مساج سويدي (900 EGP) وجلسات استرخاء ملكية وحمام تركي." },
+        { keywords: ["شاطئ", "بحر", "غطس", "حمام سباحة", "مسبح"], answer: "الشاطئ والمسابح: الشاطئ الخاص مجهز بالاستراحات والمظلات ويبعد 250 متراً (5 دقائق مشياً). يوجد مرجان خلاب." }
+        ];
+
+        let found = false;
+        for (let i = 0; i < knowledge.length; i++) {
+        const item = knowledge[i];
+        for (let j = 0; j < item.keywords.length; j++) {
+        if (question.includes(item.keywords[j])) {
+        responseDiv.innerHTML = item.answer;
+        say(item.answer, getLangTag());
+        found = true;
+        break;
+        }
+        }
+        if (found) break;
+        }
+
+        if (!found) {
+        const defaultResponse = "أهلاً بك يا قائد فؤاد. أنا مستعد للمساعدة! يمكنك الاستفسار عن المطاعم، الشاطئ، السبا، أو خدمات النقل والمستشفيات في شرم الشيخ.";
+        responseDiv.innerHTML = defaultResponse;
+        say(defaultResponse, getLangTag());
+        }
+        }
+
+        // Feature Functions
+        function requestVIPService() {
+        const serviceName = document.getElementById('vipService').options[document.getElementById('vipService').selectedIndex].text;
+        const priority = document.getElementById('vipPriority').options[document.getElementById('vipPriority').selectedIndex].text;
+        const output = document.getElementById('vipOutput');
+
+        output.innerHTML = `تم إرسال طلبك للخادم الشخصي: <strong>${serviceName}</strong>. مستوى الأولوية: <strong>${priority}</strong>. سيتم تلبية طلبك في أقرب وقت.`;
+        output.style.color = "var(--green)";
+        output.style.display = "block";
+        say("تم إرسال طلب الخدمة الشخصية بنجاح", getLangTag());
+        }
+
+        function savePillowComfort() {
+        const pillow = document.getElementById('pillowType').value;
+        const temp = document.getElementById('roomTemp').value;
+        const output = document.getElementById('pillowOutput');
+        output.innerHTML = `تم حفظ تفضيلاتك: وسادة <strong>${pillow}</strong>، وضبط درجة الحرارة على <strong>${temp}°C</strong>.`;
+        output.style.color = "var(--green)";
+        output.style.display = "block";
+        say("تم حفظ طلب الوسادة ودرجة الحرارة", getLangTag());
+        }
+
+        function showMorningBriefing() {
+        const output = document.getElementById('morningOutput');
+        output.innerHTML = `<strong>🌤️ ملخص يومك الذكي في شرم الشيخ:</strong><br>
+        - <strong>الطقس:</strong> 32°C نهاراً، رياح معتدلة (حالة ممتازة للغطس).<br>
+        - <strong>بوفيه الإفطار:</strong> متاح في المطعم الرئيسي حتى 10:30 صباحاً.<br>
+        - <strong>أطباق الشيف:</strong> أسماك طازجة ومشاوي شرقية.<br>
+        - <strong>فعاليات المساء:</strong> عرض موسيقي شرقي في خليج نعمة.`;
+        output.style.color = "var(--green)";
+        output.style.display = "block";
+        say("صباح الخير، تم تجهيز ملخص اليوم الخاص بك.", getLangTag());
+        }
+
+        function saveGreenChoice() {
+        const isGreen = document.getElementById('greenService').checked;
+        const dnd = document.getElementById('dndStatus').value;
+        const output = document.getElementById('greenOutput');
+        output.innerHTML = `تم حفظ الإعدادات: الخدمة الخضراء ${isGreen ? "مفعلة 🌱" : "غير مفعلة"}. حالة الغرفة: <strong>${dnd}</strong>.`;
+        output.style.color = "var(--green)";
+        output.style.display = "block";
+        say("تم حفظ إعدادات الخصوصية والبيئة", getLangTag());
+        }
+
+        function calculateDistance() {
+        const dest = document.getElementById('destSelect').value;
+        const output = document.getElementById('distanceOutput');
+        let text = "";
+        if (dest === 'beach') text = "الشاطئ: المسافة 250 متر (5 دقائق مشياً على الأقدام 🚶).";
+        if (dest === 'spa') text = "السبا: المسافة 100 متر عبر الممرات الرئيسية (دقيقة واحدة 🧘).";
+        if (dest === 'pool') text = "حمام السباحة: المسافة 150 متر (دقيقتان 🏊).";
+        if (dest === 'restaurant') text = "المطعم الرئيسي: المسافة 50 متر (أقل من دقيقة 🍽️).";
+
+        output.innerHTML = text;
+        output.style.color = "var(--accent)";
+        output.style.display = "block";
+        say("تم حساب المسافة والموقع.", getLangTag());
+        }
+
+        function saveScentAndLight() {
+        const scent = document.getElementById('roomScent').value;
+        const light = document.getElementById('roomLight').value;
+        const output = document.getElementById('scentOutput');
+        output.innerHTML = `تم إرسال الإعدادات: تفعيل رائحة <strong>${scent}</strong> مع إضاءة <strong>${light}</strong> عند دخول الغرفة.`;
+        output.style.color = "var(--green)";
+        output.style.display = "block";
+        say("تم تهيئة الأجواء الخاصة بك بنجاح", getLangTag());
+        }
+
+        function showBedouinStory() {
+        const topic = document.getElementById('bedouinTopic').value;
+        const output = document.getElementById('storyOutput');
+        let story = "";
+        if (topic === 'stars') {
+        story = `<strong>⛺ نجوم الصحراء بسيناء:</strong><br><br>كان البدو قديماً يعتمدون على النجوم لمعرفة الاتجاهات. "القطب الشمالي" هو الدليل الأساسي، ويعرفون أيضاً أوقات الزراعة والأمطار من خلال حركة النجوم.`;
+        } else if (topic === 'tea') {
+        story = `<strong>⛺ سر الشاي البدوي:</strong><br><br>شاي الأعشاب البرية (الحبك/المرمرية) يُمزج مع أوراق الشاي الأسود ويُغلى على الحطب. يُقدم في البرية كرمز للكرم وحسن الضيافة.`;
+        } else if (topic === 'legends') {
+        story = `<strong>⛺ أساطير سيناء القديمة:</strong><br><br>تتحدث الروايات عن قصص الجان والكنوز المخفية في جبال سيناء الشاهقة، وتوارثتها الأجيال حول نار المخيم.`;
+        }
+        output.innerHTML = story;
+        output.style.color = "var(--gold)";
+        output.style.display = "block";
+        say("تم تجهيز القصة البدوية بنجاح.", getLangTag());
+        }
+
+        function addRequest() {
+        const guest = document.getElementById('guestName').value;
+        const req = document.getElementById('guestRequest').value;
+        const statusDiv = document.getElementById('requestStatus');
+
+        if (guest === '' || req === '') {
+        statusDiv.innerText = "يرجى إدخال الاسم ورقم الغرفة والطلب.";
+        statusDiv.style.color = "var(--danger)";
+        return;
+        }
+        statusDiv.innerText = "تم تسجيل طلبك بنجاح وسنتواصل معك فوراً! ✅";
+        statusDiv.style.color = "var(--green)";
+        say("تم استلام طلبك بنجاح", getLangTag());
+        }
+
+        function addSpaBooking() {
+        const serviceSelect = document.getElementById('spaService');
+        const room = document.getElementById('spaGuestRoom').value;
+        const output = document.getElementById('spaOutput');
+
+        if (!room) {
+        output.innerText = "يرجى إدخال رقم الغرفة لتأكيد الحجز.";
+        output.style.color = "var(--danger)";
+        output.style.display = "block";
+        return;
+        }
+
+        const name = serviceSelect.options[serviceSelect.selectedIndex].text;
+        output.innerHTML = `تم إرسال طلب حجز السبا: ${name} للغرفة رقم <strong>${room}</strong> بنجاح.`;
+        output.style.color = "var(--green)";
+        output.style.display = "block";
+        say("تم إرسال طلب السبا بنجاح", getLangTag());
+        }
+
+        function calculateTravelCurrency() {
+        const egp = parseFloat(document.getElementById('egpAmount').value);
+        const output = document.getElementById('travelOutput');
+
+        if (isNaN(egp) || egp <= 0) {
+        output.innerText = "يرجى إدخال مبلغ صحيح بالجنيه.";
+        output.style.color = "var(--danger)";
+        output.style.display = "block";
+        return;
+        }
+
+        const myr = (egp * 0.076).toFixed(2);
+        const thb = (egp * 0.77).toFixed(2);
+        output.innerHTML = `المبلغ: ${egp} EGP <br> بالعملة الماليزية: <strong>${myr} MYR</strong> <br> بالعملة التايلاندية: <strong>${thb} THB</strong>`;
+        output.style.color = "var(--green)";
+        output.style.display = "block";
+        }
+
+        function translateText() {
+        const output = document.getElementById('translationOutput');
+        output.innerHTML = "تمت الترجمة بنجاح 🔤";
+        output.style.display = "block";
+        say("تمت الترجمة بنجاح.", getLangTag());
+        }
+
+        function checkSunSafety() {
+        const output = document.getElementById('sunOutput');
+        output.innerHTML = "<strong>نصائح الشمس:</strong><br>UV Index: 6 (مرتفع). استخدم واقي الشمس.";
+        output.style.color = "var(--green)";
+        output.style.display = "block";
+        say("تم فحص حالة الشمس", getLangTag());
+        }
+
+        function giveMoodAdvice() {
+        const mood = document.getElementById('moodSelect').value;
+        const output = document.getElementById('moodOutput');
+
+        let advice = "";
+        if (mood === 'relax') {
+        advice = `<strong>🧘‍♂️ اقتراح الاسترخاء والهدوء:</strong><br><br>
+        - <strong>المكان:</strong> فرشة كافيه (Farsha Mountain Lounge) - هضبة أم السيد.<br>
+        - <strong>النشاط:</strong> جلسة استرخاء مع مشروبك المفضل وقت الغروب للاستمتاع بالطبيعة، أو حجز جلسة مساج سويدي (900 EGP) في مركز السبا.<br>
+        - <strong>نصيحة:</strong> استمتع بالهدوء التام على شاطئ المنتجع الخاص.`;
+        } else if (mood === 'adventure') {
+        advice = `<strong>🏎️ اقتراح المغامرة والنشاط:</strong><br><br>
+        - <strong>المكان:</strong> محمية رأس محمد / طريق السفاري الجبلي.<br>
+        - <strong>النشاط:</strong> رحلة غوص في الشعاب المرجانية، أو رحلة سفاري بالدراجات الرباعية (ATV) في الصحراء.<br>
+        - <strong>نصيحة:</strong> احرص على ارتداء ملابس قطنية خفيفة وتجهيز معدات التصوير.`;
+        } else if (mood === 'night') {
+        advice = `<strong>🎵 اقتراح السهرات والحفلات:</strong><br><br>
+        - <strong>المكان:</strong> خليج نعمة أو سوهو سكوير (Soho Square).<br>
+        - <strong>النشاط:</strong> حضور عروض النافورة الراقصة، الاستماع للموسيقى الحية، أو تناول العشاء في المطعم البدوي.<br>
+        - <strong>نصيحة:</strong> احرص على حجز طاولتك مبكراً لتجنب الازدحام.`;
+        }
+
+        output.innerHTML = advice;
+        output.style.color = "var(--gold)";
+        output.style.display = "block";
+        say("تم تجهيز الاقتراح السياحي، نتمنى لك وقتاً ممتعاً.", getLangTag());
+        }
+
+        function addWakeUpCall() {
+        const room = document.getElementById('roomWakeUp').value;
+        const time = document.getElementById('timeWakeUp').value;
+        const output = document.getElementById('wakeUpOutput');
+        output.innerHTML = `تم تسجيل طلب الإيقاظ للغرفة <strong>${room}</strong> في الساعة ${time}.`;
+        output.style.color = "var(--green)";
+        output.style.display = "block";
+        say("تم تسجيل الإيقاظ", getLangTag());
+        }
+
+        function submitFeedback() {
+        const output = document.getElementById('feedbackOutput');
+        output.innerHTML = "شكراً لتقييمك! ⭐";
+        output.style.color = "var(--green)";
+        output.style.display = "block";
+        }
+
+        function calculateTip() {
+        document.getElementById('tipResult').innerHTML = "تم الحساب.";
+        document.getElementById('tipResult').style.display = "block";
+        }
+
+        function addTask() {
+        const taskText = document.getElementById('taskInput').value;
+        if (taskText.trim() === "") return;
+        const taskList = document.getElementById('taskList');
+        const item = document.createElement('div');
+        item.className = 'todo-item';
+        item.innerHTML = `<span><i class="fa fa-circle" style="font-size: 8px; color: var(--gold); margin-left: 5px;"></i> ${taskText}</span> <i class="fa fa-trash" style="cursor:pointer; color: var(--danger)" onclick="this.parentElement.remove()"></i>`;
+        taskList.appendChild(item);
+        document.getElementById('taskInput').value = "";
+        }
+
+        function promptAdminMode() {
+        const pass = prompt("الرجاء إدخال الرمز السري (جرب: 1991):");
+        if (pass === "1991") {
+        const secureDash = document.getElementById('secureDashboard');
+        if (secureDash.style.display === 'none' || secureDash.style.display === '') {
+        secureDash.style.display = 'block';
+        say("تم فتح لوحة التحكم الآمنة بنجاح", getLangTag());
+        } else {
+        secureDash.style.display = 'none';
+        }
+        } else {
+        alert("رمز سري خاطئ!");
+        }
+        }
+
+        function toggleTheme() {
+        document.body.classList.toggle('light-mode');
+        }
+
+        function emergencyCall() {
+        alert("يتم الآن الاتصال برقم الطوارئ 122...");
+        say("جاري الاتصال بالطوارئ", getLangTag());
+        }
+
+        function showLocationMap() {
+        const select = document.getElementById('locationSelect').value;
+        const output = document.getElementById('mapOutput');
+        let text = "";
+
+        if (select === 'farsha') {
+        text = "<strong>📍 فرشة كافيه (Farsha Mountain Lounge):</strong><br>الموقع: هضبة أم السيد.<br>الرابط المبدئي لـ Google Maps: <a href='https://www.google.com/maps/search/?api=1&query=Farsha+Mountain+Lounge+Sharm+El+Sheikh' target='_blank' style='color:var(--accent)'>اضغط هنا للخرائط</a>";
+        } else if (select === 'hospital') {
+        text = "<strong>📍 مستشفى شرم الشيخ الدولي:</strong><br>الموقع: طريق السلام، خليج نعمة.<br>الرابط المبدئي لـ Google Maps: <a href='https://www.google.com/maps/search/?api=1&query=Sharm+El+Sheikh+International+Hospital' target='_blank' style='color:var(--accent)'>اضغط هنا للخرائط</a>";
+        } else if (select === 'fares') {
+        text = "<strong>📍 مطعم فارس للمأكولات البحرية:</strong><br>الموقع: السوق القديم.<br>الرابط المبدئي لـ Google Maps: <a href='https://www.google.com/maps/search/?api=1&query=Fares+Seafood+Sharm+El+Sheikh' target='_blank' style='color:var(--accent)'>اضغط هنا للخرائط</a>";
+        } else if (select === 'soho') {
+        text = "<strong>📍 سوهو سكوير:</strong><br>الموقع: خليج القرش.<br>الرابط المبدئي لـ Google Maps: <a href='https://www.google.com/maps/search/?api=1&query=Soho+Square+Sharm+El+Sheikh' target='_blank' style='color:var(--accent)'>اضغط هنا للخرائط</a>";
+        }
+        output.innerHTML = text;
+        output.style.display = "block";
+        say("تم عرض الموقع.", getLangTag());
+        }
+
+        function scheduleFitness() {
+        const routine = document.getElementById('fitnessRoutine').value;
+        const output = document.getElementById('fitnessOutput');
+        let text = "";
+        if (routine === 'yoga') {
+        text = "تم حجز جلسة اليوغا الصباحية على الشاطئ بنجاح. سنقوم بإيقاظك أو تذكيرك قبل الموعد بـ 30 دقيقة.";
+        } else if (routine === 'gym') {
+        text = "تم حجز البرنامج الرياضي في صالة الألعاب الرياضية. مدرب اللياقة سيكون في انتظارك.";
+        } else if (routine === 'swim') {
+        text = "تم تسجيلك في حصة التمارين المائية.";
+        }
+        output.innerHTML = text;
+        output.style.color = "var(--green)";
+        output.style.display = "block";
+        say("تم حجز الجدول الرياضي بنجاح.", getLangTag());
+        }
+
+        function say(text, lang) {
+        const msg = new SpeechSynthesisUtterance(text);
+        msg.lang = lang;
+        window.speechSynthesis.speak(msg);
+        }
+    </script>
+</body>
+<div style="text-align: center; margin: 20px;">
+    <div id="jarvisBtn" onclick="toggleJarvis()" style="width: 70px; height: 70px; background: #00d2ff; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 15px #00d2ff;">
+        <i class="fa fa-microphone fa-2x" style="color: black;"></i>
+    </div>
+    <p id="jarvisStatus" style="color: #00d2ff; font-size: 12px; margin-top: 10px;">انقر للتحدث مع جارفيس</p>
+</div>
+</html>
+"""
+
+with tempfile.NamedTemporaryFile('w', delete=False, suffix='.html', encoding='utf-8') as f:
+    f.write(ai_system_html)
+    path = f.name
+
+webbrowser.open(f"file://{path}")
