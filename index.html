@@ -77,21 +77,189 @@ try{speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(txt.replace(/<[^
 if(lang=='en')u.lang='en-US';else if(lang=='ru')u.lang='ru-RU';else if(lang=='it')u.lang='it-IT';else if(lang=='de')u.lang='de-DE';else u.lang='ar-EG';
 u.rate=0.92;speechSynthesis.speak(u);}catch(e){}
 }
-function askAI(){
-voiceOn=true;
-let q=document.getElementById('guestQuestion').value.trim().toLowerCase();
-if(!q){document.getElementById('aiResponse').innerText=curLang=='en'?"Type your question first 😊":"اكتب سؤالك أولا 😊";return;}
-let l=q,a="",en=curLang=='en';
-if(l.includes('جوع')||l.includes('اكل')||l.includes('مطعم')||l.includes('food')||l.includes('hungry')){a=en?"Hungry? 😋 Fares Seafood Old Market is famous - seafood soup & shrimp rice. El Masryeen grills in Naama. El Balady 24h Egyptian dishes. How many guests?":"أهلاً وسهلاً 😋 لو جعان عندكم 3 اختيارات ممتازة:<br>1️⃣ <b>فارس سي فود</b> في السوق القديم - شوربة سي فود عالمية وأرز بالجمبري<br>2️⃣ <b>المصريين</b> في خليج نعمة - مشويات وطواجن<br>3️⃣ <b>البلدي</b> فاتح 24 ساعة - أطباق مصرية. كم فرد؟";}
-else if(l.includes('بحر')||l.includes('شط')||l.includes('beach')||l.includes('pool')){a=en?"Beach amazing today 🌊 32°C sunny, AQI 35 excellent. Beach 250m 5 min walk, coral reef amazing. Pool till 6pm. Reserve sunbed?":"البحر اليوم ممتاز 🌊 32°C مشمس، AQI 35 ممتاز للغطس. الشاطئ 250م 5 دقائق، شعاب مرجانية رائعة. البسين حتى 6 مساءً. أحجز شازلونج؟";}
-else if(l.includes('فرشة')||l.includes('farsha')){a=en?"Farsha Cafe is whole mood ☕🌅 Hadabet Om El Sid - best sunset in Sharm, Bedouin seating & shisha. Taxi 10 min 80 EGP. Order taxi?":"فرشة كافيه المزاج كله ☕🌅 هضبة أم السيد - أحلى غروب في شرم، قعدة بدوي وشيشة وإطلالة بحرية. تاكسي 10 دقائق 80 جنيه. أطلب تاكسي؟";}
-else if(l.includes('تاكسي')||l.includes('taxi')){a=en?"Taxi 24h in front 🚕 Naama 50-80 EGP, Soho 100, Old Market 70, Airport 150. Where to?":"التاكسي أمام الفندق 24 ساعة 🚕 نعمة 50-80ج، سوهو 100ج، السوق القديم 70ج، المطار 150ج. رايحين فين؟";}
-else if(l.includes('واي فاي')||l.includes('wifi')){a=en?"Free fast WiFi 📶 Network: FourSeasons-Guest Password: room number + first name ex: 101ahmed":"الواي فاي مجاني 📶 الشبكة FourSeasons-Guest الباسورد رقم الغرفة + أول اسم مثال: 101ahmed";}
-else if(l.includes('مستشفى')||l.includes('hospital')){a=en?"Get well soon ❤️ Sharm International Hospital Salam Road ER 24h Emergency 122":"ألف سلامة ❤️ مستشفى شرم الدولي طريق السلام طوارئ 24س 122";}
-else if(l.includes('سبا')||l.includes('spa')){a=en?"Spa 9am-8pm: Swedish 60min 900 EGP, Royal 90min 1200, Jacuzzi 500. Type & room?":"السبا من 9 لـ 8: سويدي 60د 900ج، ملكي 90د 1200ج، جاكوزي 500ج. النوع ورقم الغرفة؟";}
-else{a=en?"Got it: '"+q+"' 😉 I'm your hotel AI - I speak like you here in Meta! I can help: Restaurants, Beach, Farsha, Taxi, WiFi, Hospital, Spa":"فهمت: '"+q+"' 😉 أنا مساعدكم الذكي في الفندق - بتكلم عامية زي ما بتكلموني هنا في ميتا! أقدر أساعدكم في: مطاعم، بحر، فرشة، تاكسي، واي فاي، مستشفى، سبا";}
-document.getElementById('aiResponse').innerHTML=a;speak(a,curLang);
+function askAI() {
+    voiceOn = true;
+    let input = document.getElementById('guestQuestion');
+    let q = input.value.trim();
+    if (!q) {
+        document.getElementById('aiResponse').innerText = curLang == 'en' ? "Please type your question first 😊" : "اكتب سؤالك أولا 😊";
+        return;
+    }
+    let l = q.toLowerCase().normalize("NFD").replace(/[\u064B-\u0652]/g, "");
+    let responseDiv = document.getElementById('aiResponse');
+    let a = "";
+    let en = curLang == 'en';
+    let ru = curLang == 'ru';
+    let it = curLang == 'it';
+    let de = curLang == 'de';
+
+    // تفاعل - سلام وتحية
+    if (l.includes('سلام') || l.includes('هلا') || l.includes('اهلا') || l.includes('صباح') || l.includes('مساء') || l.includes('hello') || l.includes('hi') || l.includes('привет') || l.includes('ciao') || l.includes('hallo')) {
+        a = en ? "Ahlan Ahlan! 😍 Welcome to Sharm! How can I help you today? Ask me about food, beach, Farsha, taxi, WiFi, spa - I speak like you!" 
+               : "أهلاً أهلاً يا غالي 😍 نورت شرم الشيخ! عامل إيه؟ قولّي عايز إيه وأنا أظبطهولك فوراً - أكل، بحر، فرشة، تاكسي، واي فاي، سبا - أنا تحت أمرك!";
+    }
+    // أكل ومطاعم - يفهم كل الصيغ
+    else if (l.includes('جوع') || l.includes('اكل') || l.includes('أكل') || l.includes('مطعم') || l.includes('عايز اكل') || l.includes('جعان') || l.includes('food') || l.includes('hungry') || l.includes('restaurant') || l.includes('eat') || l.includes('еда') || l.includes('cibo') || l.includes('essen')) {
+        if (en) a = `Yeah Boss, hungry? 😋 I got you!<br><br>
+        1️⃣ <b>Fares Seafood - Old Market</b> 🦐<br>Seafood soup that will make you cry + Shrimp rice - <b>Budget: 250-400 EGP</b><br><br>
+        2️⃣ <b>El Masryeen - Naama Bay</b> 🥩<br>Best grills & Egyptian casseroles - <b>Budget: 200-350 EGP</b><br><br>
+        3️⃣ <b>El Balady - Naama 24h</b> 🍗<br>Pigeon stuffed, molokhia, mombar - open 24h<br><br>
+        👉 <b>How many guests? Tell me room number and I'll book now with 10% discount!</b>`;
+        else a = `يا هلا يا باشا لو جعان 😋 أنا هظبطك!<br><br>
+        1️⃣ <b>فارس سي فود - السوق القديم</b> 🦐<br>شوربة سي فود هتخليك تعيط من حلاوتها + أرز بالجمبري - <b>250-400 جنيه</b><br><br>
+        2️⃣ <b>المصريين - خليج نعمة</b> 🥩<br>أحلى مشويات وطواجن - <b>200-350 جنيه</b><br><br>
+        3️⃣ <b>البلدي - خليج نعمة فاتح 24 ساعة</b> 🍗<br>حمام محشي، ملوخية، ممبار<br><br>
+        👉 <b>كم فرد؟ قولّي رقم الغرفة وأنا أحجزلك حالاً بخصم 10%!</b>`;
+    }
+    // بحر وشط
+    else if (l.includes('بحر') || l.includes('شط') || l.includes('بسين') || l.includes('سباحه') || l.includes('غطس') || l.includes('سنوركل') || l.includes('beach') || l.includes('sea') || l.includes('pool') || l.includes('swim') || l.includes('snorkel')) {
+        a = en ? `Beach today is FIRE 🔥🌊<br>
+        ☀️ 32°C sunny, wind light<br>
+        📊 AQI 35 - excellent for snorkeling<br>
+        📍 250m from you - 5 min walk<br>
+        🪸 Coral reef INSANE - you will see clown fish!<br>
+        🏊 Pool open till 6pm - 28°C<br><br>
+        👉 <b>Want me to reserve sunbed + towel + snorkel mask for you?</b> Tell me room number!`
+        : `البحر النهاردة نار 🔥🌊<br>
+        ☀️ 32°C مشمس، هوا خفيف<br>
+        📊 جودة الهواء AQI 35 - ممتاز للغطس<br>
+        📍 250 متر منك - 5 دقايق مشي<br>
+        🪸 المرجان يجنن - هتشوف سمك نيمو!<br>
+        🏊 البسين مفتوح لحد 6 المغرب - 28°C<br><br>
+        👉 <b>أحجزلك شازلونج وفوطة وماسك غطس؟</b> قولّي رقم الغرفة!`;
+    }
+    // فرشة
+    else if (l.includes('فرشة') || l.includes('farsha') || l.includes('كافيه') || l.includes('قعدة') || l.includes('شيشة') || l.includes('غروب') || l.includes('cafe') || l.includes('shisha') || l.includes('sunset')) {
+        a = en ? `Farsha Cafe = WHOLE MOOD ☕🌅<br>
+        📍 Hadabet Om El Sid - on mountain top<br>
+        🌅 BEST sunset in all Sharm - 6:15pm today<br>
+        🪑 Bedouin seating, cushions, low tables<br>
+        💨 Shisha + mint tea + sea view<br>
+        🚕 Taxi 10 min - 80 EGP - I can order now<br><br>
+        👉 <b>Want taxi for sunset? Tell me time + room number!</b>`
+        : `فرشة كافيه = المزاج كله ☕🌅<br>
+        📍 هضبة أم السيد - فوق الجبل<br>
+        🌅 أحلى غروب في شرم كلها - النهاردة 6:15 المغرب<br>
+        🪑 قعدة بدوي، شلت، ترابيزات واطية<br>
+        💨 شيشة + شاي نعناع + إطلالة بحر تحفة<br>
+        🚕 تاكسي 10 دقايق - 80 جنيه - أقدر أطلبه حالاً<br><br>
+        👉 <b>عايز تاكسي للغروب؟ قولّي الساعة ورقم الغرفة!</b>`;
+    }
+    // تاكسي
+    else if (l.includes('تاكسي') || l.includes('توصيل') || l.includes('مواصلات') || l.includes('اوبر') || l.includes('taxi') || l.includes('uber') || l.includes('transport')) {
+        a = en ? `Taxi 24h in front of hotel 🚕<br>
+        💰 Fixed prices for you:<br>
+        • Naama Bay: 50-80 EGP<br>
+        • Soho Square: 100 EGP<br>
+        • Old Market: 70 EGP<br>
+        • Airport: 150 EGP<br>
+        • Farsha Cafe: 80 EGP<br><br>
+        👉 <b>Where to? Tell me room number + time and I'll order now - driver will call you!</b>`
+        : `التاكسي قدام الفندق 24 ساعة 🚕<br>
+        💰 أسعار ثابتة ليكم:<br>
+        • خليج نعمة: 50-80 جنيه<br>
+        • سوهو سكوير: 100 جنيه<br>
+        • السوق القديم: 70 جنيه<br>
+        • المطار: 150 جنيه<br>
+        • فرشة كافيه: 80 جنيه<br><br>
+        👉 <b>رايحين فين؟ قولّي رقم الغرفة والميعاد وأنا أطلبه حالاً - السواق هيكلمك!</b>`;
+    }
+    // واي فاي
+    else if (l.includes('واي فاي') || l.includes('wifi') || l.includes('انترنت') || l.includes('نت') || l.includes('باسورد') || l.includes('password') || l.includes('internet')) {
+        a = en ? `Free FAST WiFi 📶🚀<br>
+        📡 Network: <b>FourSeasons-Guest</b><br>
+        🔑 Password: <b>Room number + first name</b><br>
+        Example: Room 101 name Ahmed = <b>101ahmed</b><br>
+        Example: Room 205 name Sara = <b>205sara</b><br><br>
+        Not working? 👉 <b>Tell me room number + name and I'll fix it in 1 min!</b>`
+        : `الواي فاي مجاني وسريع جداً 📶🚀<br>
+        📡 اسم الشبكة: <b>FourSeasons-Guest</b><br>
+        🔑 الباسورد: <b>رقم الغرفة + أول اسم</b><br>
+        مثال: غرفة 101 اسم أحمد = <b>101ahmed</b><br>
+        مثال: غرفة 205 اسم سارة = <b>205sara</b><br><br>
+        مش شغال؟ 👉 <b>قولّي رقم الغرفة والاسم وأنا أظبطهولك في دقيقة!</b>`;
+    }
+    // مستشفى
+    else if (l.includes('مستشفى') || l.includes('دكتور') || l.includes('تعبان') || l.includes('علاج') || l.includes('صيدلية') || l.includes('hospital') || l.includes('doctor') || l.includes('sick') || l.includes('pharmacy')) {
+        a = en ? `Get well soon ❤️🙏<br>
+        🏥 <b>Sharm International Hospital</b><br>
+        📍 Salam Road - 5 min by taxi<br>
+        🚨 ER 24h fully equipped<br>
+        📞 Emergency: <b>122</b><br>
+        💊 Pharmacy 24h in hospital<br><br>
+        👉 <b>Need doctor to your room? Tell me room number + what's wrong - I'll send doctor NOW!</b>`
+        : `ألف سلامة عليك ❤️🙏<br>
+        🏥 <b>مستشفى شرم الشيخ الدولي</b><br>
+        📍 طريق السلام - 5 دقايق تاكسي<br>
+        🚨 طوارئ 24 ساعة مجهز بالكامل<br>
+        📞 طوارئ النجدة: <b>122</b><br>
+        💊 صيدلية 24 ساعة في المستشفى<br><br>
+        👉 <b>محتاج دكتور يطلع الغرفة؟ قولّي رقم الغرفة وبتشتكي من إيه وأنا أبعتلك دكتور حالاً!</b>`;
+    }
+    // سبا
+    else if (l.includes('سبا') || l.includes('مساج') || l.includes('تدليك') || l.includes('جاكوزي') || l.includes('ساونا') || l.includes('spa') || l.includes('massage') || l.includes('jacuzzi') || l.includes('sauna')) {
+        a = en ? `Want to pamper yourself? 💆✨<br>
+        🕘 Open 9am - 8pm today<br>
+        💆 Swedish 60min: <b>900 EGP</b> - relax muscles<br>
+        👑 Royal 90min: <b>1200 EGP</b> - full body + hot stones<br>
+        🛁 Jacuzzi + Sauna: <b>500 EGP</b><br>
+        🧖‍♀️ Moroccan bath: <b>700 EGP</b><br><br>
+        👉 <b>Tell me which one + room number + time and I'll book NOW with towel & tea!</b>`
+        : `عايزين تدلعوا نفسكم؟ 💆✨<br>
+        🕘 فاتح من 9 الصبح لـ 8 بالليل<br>
+        💆 سويدي 60 دقيقة: <b>900 جنيه</b> - يفك العضلات<br>
+        👑 ملكي 90 دقيقة: <b>1200 جنيه</b> - مساج كامل + أحجار سخنة<br>
+        🛁 جاكوزي + ساونا: <b>500 جنيه</b><br>
+        🧖‍♀️ حمام مغربي: <b>700 جنيه</b><br><br>
+        👉 <b>قولّي عايزين إيه + رقم الغرفة + الساعة وأنا أحجزلكم حالاً مع فوطة وشاي!</b>`;
+    }
+    // شكرا
+    else if (l.includes('شكرا') || l.includes('شكر') || l.includes('thanks') || l.includes('thank you') || l.includes('спасибо') || l.includes('grazie') || l.includes('danke')) {
+        a = en ? "Welcome anytime Boss! 😍❤️ Anytime you need me just write - I'm here 24h for you! Need anything else? Food? Beach? Taxi?" 
+               : "العفو يا باشا 😍❤️ في أي وقت تحتاجني اكتبلي بس - أنا موجود 24 ساعة عشانكم! محتاج حاجة تانية؟ أكل؟ بحر؟ تاكسي؟";
+    }
+    // مش فاهم - يرد تفاعلي
+    else {
+        if (en) a = `Got you Boss! You said: "<b>${q}</b>" 😉<br><br>
+        I'm your hotel Jarvis - I speak Egyptian like you talk to me here in Meta AI!<br><br>
+        I can help you with:<br>
+        🍽️ <b>Food</b> - say "I'm hungry" or "restaurant"<br>
+        🌊 <b>Beach & Pool</b> - say "beach" or "pool"<br>
+        ☕ <b>Farsha Cafe</b> - say "Farsha"<br>
+        🚕 <b>Taxi</b> - say "taxi"<br>
+        📶 <b>WiFi</b> - say "WiFi password"<br>
+        🏥 <b>Hospital</b> - say "hospital" or "doctor"<br>
+        💆 <b>Spa</b> - say "spa" or "massage"<br><br>
+        👉 <b>Try writing in colloquial like you talk to me here and I'll answer like you!</b>`;
+        else a = `فهمتك بتقول: "<b>${q}</b>" 😉<br><br>
+        أنا مساعدكم الذكي في الفندق - بتكلم عامية زي ما بتكلموني هنا في ميتا!<br><br>
+        أقدر أساعدكم في:<br>
+        🍽️ <b>أكل ومطاعم</b> - قول "انا جعان" أو "عايز مطعم"<br>
+        🌊 <b>بحر وبسين وغطس</b> - قول "فين البحر" أو "عايز أغطس"<br>
+        ☕ <b>فرشة كافيه</b> - قول "فرشة" أو "عايز قعدة حلوة"<br>
+        🚕 <b>تاكسي</b> - قول "عايز تاكسي"<br>
+        📶 <b>واي فاي</b> - قول "الواي فاي مش شغال"<br>
+        🏥 <b>مستشفى ودكتور</b> - قول "تعبان" أو "عايز دكتور"<br>
+        💆 <b>سبا ومساج</b> - قول "عايز مساج"<br><br>
+        👉 <b>جرب تحكي عامية زي ما بتكلمني هنا وأنا هرد عليك زيك بالظبط!</b>`;
+    }
+
+    responseDiv.innerHTML = a;
+    responseDiv.style.display = "block";
+    speak(a, curLang);
+    input.value = "";
+    input.focus();
 }
+
+// يخلي Enter يشتغل كمان
+document.addEventListener('DOMContentLoaded', () => {
+    let input = document.getElementById('guestQuestion');
+    if (input) {
+        input.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') askAI();
+        });
+    }
+});
 function toggleTheme(){document.body.classList.toggle('light-mode');}
 function emergencyCall(){if(confirm(curLang=='en'?'Emergency 122?':'اتصال طوارئ 122؟'))window.location.href='tel:122';}
 function savePillowComfort(){let o=document.getElementById('pillowOutput');o.style.display='block';o.innerHTML=curLang=='en'?'✅ Saved - Will be set in room in 5 min 🛏️':'✅ تم الحفظ - سيتم التجهيز في الغرفة خلال 5 دقائق 🛏️';speak(o.innerText,curLang);}
