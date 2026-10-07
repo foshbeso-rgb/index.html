@@ -1,94 +1,159 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SINAI SMART CONCIERGE - V52 FIXED</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SINAI SMART CONCIERGE - V52 FULL</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 :root{--gold:#D4AF37;--bg:#080808;--card:#151515;--accent:#00d2ff;--green:#2ed573;--text:#fff;--border:#222}
 body{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-serif;margin:0}
-.container{max-width:1150px;margin:auto;padding:16px}
-.hero{text-align:center;padding:26px;background:linear-gradient(135deg,rgba(212,175,55,.12),#000);border-radius:20px;border:1px solid var(--gold)}
-.box{background:var(--card);border-radius:16px;padding:16px;border:1px solid var(--border);margin-top:14px}
-.ai-box{border:2px solid var(--accent);background:#0e0e0e;border-radius:16px;padding:12px}
-#chat{max-height:340px;overflow-y:auto;display:flex;flex-direction:column;gap:8px}
-.msg{padding:10px 13px;border-radius:13px;max-width:85%;font-size:13px;line-height:1.6}
+.container{max-width:1200px;margin:auto;padding:16px}
+.hero{text-align:center;padding:28px;background:linear-gradient(135deg,rgba(212,175,55,.12),#000);border-radius:22px;border:1px solid var(--gold);margin-bottom:18px}
+.box{background:var(--card);border-radius:18px;padding:16px;border:1px solid var(--border);margin-bottom:14px}
+.box h2{color:var(--gold);font-size:15px;margin:0 0 10px 0;display:flex;gap:8px;align-items:center}
+.ai-box{border:2px solid var(--accent);background:#0e0e0e}
+#chat{max-height:320px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
+.msg{padding:9px 12px;border-radius:12px;max-width:85%;font-size:13px;line-height:1.5}
 .user{background:var(--gold);color:#000;align-self:flex-start}
-.bot{background:rgba(0,210,255,.13);border:1px solid rgba(0,210,255,.3);align-self:flex-end}
-.row{display:flex;gap:8px;margin-top:10px}
-input{flex:1;padding:11px;border-radius:10px;border:1px solid var(--border);background:#1d1d1d;color:#fff}
-button{padding:11px 14px;border-radius:10px;border:none;font-weight:bold;cursor:pointer}
-.b1{background:var(--accent);color:#000}
-.b2{background:#222;color:var(--accent);border:1px solid var(--accent)}
+.bot{background:rgba(0,210,255,.12);border:1px solid rgba(0,210,255,.3);align-self:flex-end}
+.row{display:flex;gap:7px}
+.ai-input{flex:1;padding:11px;border-radius:10px;border:1px solid var(--border);background:#1d1d1d;color:#fff}
+.btn{padding:10px 14px;border-radius:10px;border:none;font-weight:bold;cursor:pointer}
+.b-accent{background:var(--accent);color:#000}
+.b-gold{background:var(--gold);color:#000}
+.b-green{background:var(--green);color:#fff}
+.b-danger{background:#ff4757;color:#fff}
+.b-mic{background:#222;color:var(--accent);border:1px solid var(--accent);width:44px}
+.form{width:100%;padding:9px;border-radius:8px;border:1px solid var(--border);background:#1d1d1d;color:#fff;margin-bottom:7px;box-sizing:border-box}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.data-table{width:100%;border-collapse:collapse;font-size:12px}
+.data-table th,.data-table td{border:1px solid var(--border);padding:8px;text-align:right}
+.data-table th{color:var(--gold);background:#0a0a0a}
 .chip{padding:5px 10px;border-radius:18px;border:1px solid var(--gold);color:var(--gold);font-size:11px;background:transparent;cursor:pointer}
+.todo{padding:7px;border-right:3px solid var(--gold);background:rgba(255,255,255,.04);margin-bottom:5px;border-radius:6px;font-size:12px}
 </style>
 </head>
 <body>
 <div class="container">
 <div class="hero">
-<h1>SINAI SMART CONCIERGE - V52</h1>
-<p style="color:var(--gold)">تم حذف أكواد البايثون نهائياً - AI شغال صوت وكتابة</p>
-<div style="color:var(--green);font-size:13px">● Online - AI Fixed - Clean Code</div>
+<h1>SINAI SMART CONCIERGE - V52 FULL</h1>
+<p style="color:var(--gold);margin:5px 0">كل حاجة قديمة رجعت + AI بيتكلم زي ما بكلمك + كود نضيف 100%</p>
+<div style="color:var(--green);font-size:12px">● Online | V52 Full | Clean | Voice + Chat</div>
+<button onclick="document.body.classList.toggle('light-mode')" style="margin-top:8px;padding:5px 14px;border-radius:18px;background:var(--gold);border:none;font-weight:bold;cursor:pointer">تبديل الوضع</button>
 </div>
 
+<!-- AI الجديد -->
 <div class="box ai-box">
+<h2><i class="fa fa-robot" style="color:var(--accent)"></i> جارفيس - بيتكلم معاك صوت وكتابة</h2>
 <div id="chat">
-<div class="msg bot">أهلا يا قائد فؤاد! أنا جارفيس الجديد 😎<br>دلوقتي بتكلم معاك زي ما بتكلمني، قول: <b>انا جعان - عايز البحر - فين فرشة - عايز تاكسي - الواي فاي كام</b><br>ودوس المايك 🎤 هسمعك وأرد صوت!</div>
+<div class="msg bot">أهلا يا قائد فؤاد! 👋 أنا رجعت بكل حاجة قديمة + بقيت أتكلم معاك زي ما بتكلمني دلوقتي. قولّي: <b>انا جعان، عايز البحر، فين فرشة، عايز تاكسي، احجز سبا</b> ودوس المايك 🎤 هسمعك!</div>
 </div>
 <div class="row">
-<button id="mic" class="b2" onclick="mic()"><i class="fa fa-microphone"></i></button>
-<input id="inp" placeholder="اكتب هنا..." onkeydown="if(event.key==='Enter') send()">
-<button class="b1" onclick="send()"><i class="fa fa-paper-plane"></i></button>
+<button id="micBtn" class="btn b-mic" onclick="toggleMic()"><i class="fa fa-microphone"></i></button>
+<input id="qInput" class="ai-input" placeholder="اكتب هنا زي ما بتكلمني..." onkeypress="if(event.key==='Enter') sendMsg()">
+<button class="btn b-accent" onclick="sendMsg()"><i class="fa fa-paper-plane"></i></button>
 </div>
 <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
-<span class="chip" onclick="q('انا جعان')">انا جعان</span>
-<span class="chip" onclick="q('عايز انزل البحر')">البحر</span>
-<span class="chip" onclick="q('فين فرشة كافيه')">فرشة</span>
-<span class="chip" onclick="q('عايز تاكسي')">تاكسي</span>
-<span class="chip" onclick="q('الواي فاي كام')">واي فاي</span>
-<span class="chip" onclick="q('احجزلي سبا')">سبا</span>
+<span class="chip" onclick="quickAsk('انا جعان اوي')">انا جعان</span>
+<span class="chip" onclick="quickAsk('عايز انزل البحر')">البحر</span>
+<span class="chip" onclick="quickAsk('فين فرشة كافيه')">فرشة</span>
+<span class="chip" onclick="quickAsk('عايز تاكسي')">تاكسي</span>
+<span class="chip" onclick="quickAsk('الواي فاي كام')">واي فاي</span>
+<span class="chip" onclick="quickAsk('احجزلي سبا')">سبا</span>
 </div>
 </div>
 
-<div class="box">
-<h3 style="color:var(--gold)"><i class="fa fa-database"></i> الخدمات الشاملة</h3>
-<table style="width:100%;border-collapse:collapse;font-size:12px"><tr style="color:var(--gold)"><th>القسم</th><th>الاسم</th><th>الموقع</th></tr>
-<tr><td>مطاعم</td><td>فارس للمأكولات البحرية</td><td>السوق القديم</td></tr>
-<tr><td>مطاعم</td><td>مطعم المصريين</td><td>خليج نعمة</td></tr>
-<tr><td>كافيهات</td><td>فرشة كافيه</td><td>هضبة أم السيد</td></tr>
-<tr><td>مستشفيات</td><td>مستشفى شرم الدولي</td><td>طريق السلام - 122</td></tr>
-</table>
+<div class="grid">
+<div class="box"><h2><i class="fa fa-bed"></i> قائمة الوسائد والراحة</h2>
+<select id="pillowType" class="form"><option value="medical">وسادة طبية</option><option value="feather">ريش نعام</option><option value="memory">ميموري فوم</option></select>
+<select id="roomTemp" class="form"><option value="22">حرارة 22°C</option><option value="20">20°C</option><option value="24">24°C</option></select>
+<button class="btn b-gold" style="width:100%" onclick="savePillow()">حفظ 🛏️</button>
+<div id="pillowOut" style="font-size:12px;color:var(--green);margin-top:6px;display:none"></div></div>
+
+<div class="box"><h2><i class="fa fa-sun"></i> ملخص الصباح الذكي</h2>
+<button class="btn b-accent" style="width:100%" onclick="document.getElementById('mornOut').innerHTML='🌤️ يومك: 32°C ممتاز للغطس - الإفطار لحد 10:30 - حفلة شرقي في نعمة بليل';document.getElementById('mornOut').style.display='block'">عرض ملخص اليوم ☀️</button>
+<div id="mornOut" style="display:none;font-size:12px;margin-top:8px;background:rgba(0,210,255,.1);padding:8px;border-radius:8px"></div></div>
 </div>
+
+<div class="grid">
+<div class="box"><h2><i class="fa fa-leaf"></i> البرنامج الأخضر والخصوصية</h2>
+<label style="font-size:12px"><input type="checkbox" id="greenChk"> تفعيل الخدمة الخضراء 🌱</label>
+<select id="dndSel" class="form" style="margin-top:6px"><option value="ready">السماح بتنظيف الغرفة</option><option value="dnd">عدم الإزعاج - DND</option></select>
+<button class="btn b-green" style="width:100%" onclick="saveGreen()">حفظ 🌿</button>
+<div id="greenOut" style="display:none;font-size:12px;margin-top:6px"></div></div>
+
+<div class="box"><h2><i class="fa fa-map"></i> المستشار التفاعلي للمنتجع</h2>
+<select id="destSel" class="form"><option value="beach">شاطئ البحر</option><option value="spa">السبا</option><option value="pool">حمام السباحة</option><option value="restaurant">المطعم الرئيسي</option></select>
+<button class="btn b-gold" style="width:100%" onclick="calcDist()">توجيه ومسافة 🧭</button>
+<div id="distOut" style="display:none;font-size:12px;margin-top:6px;background:rgba(212,175,55,.1);padding:8px;border-radius:8px"></div></div>
+</div>
+
+<div class="grid">
+<div class="box"><h2><i class="fa fa-concierge-bell"></i> الخدمات المباشرة</h2>
+<input type="text" id="guestName" class="form" placeholder="اسم / غرفة">
+<input type="text" id="guestRequest" class="form" placeholder="طلبك (قهوة، تاكسي، صيانة)">
+<button class="btn b-green" style="width:100%" onclick="addRequest()">إرسال وحفظ ✅</button>
+<div id="reqStatus" style="font-size:12px;color:var(--green);margin-top:5px"></div></div>
+
+<div class="box"><h2><i class="fa fa-spa"></i> إدارة السبا</h2>
+<select id="spaSel" class="form"><option value="900">سويدي 60د - 900 EGP</option><option value="1200">ملكي 90د - 1200 EGP</option><option value="500">جاكوزي وساونا - 500 EGP</option></select>
+<input type="text" id="spaRoom" class="form" placeholder="رقم الغرفة">
+<button class="btn b-gold" style="width:100%" onclick="addSpa()">تأكيد حجز السبا</button>
+<div id="spaOut" style="display:none;font-size:12px;margin-top:6px"></div></div>
+</div>
+
+<div class="box"><h2><i class="fa fa-database"></i> الخدمات الشاملة</h2>
+<div style="overflow:auto">
+<table class="data-table"><thead><tr><th>القسم</th><th>الاسم</th><th>العنوان</th><th>الخدمات</th></tr></thead>
+<tbody>
+<tr><td>مطاعم</td><td>فارس للمأكولات البحرية</td><td>السوق القديم</td><td>شوربة سي فود، جمبري</td></tr>
+<tr><td>مطاعم</td><td>مطعم المصريين</td><td>خليج نعمة</td><td>مشويات، طواجن</td></tr>
+<tr><td>مطاعم</td><td>مطعم البلدي</td><td>خليج نعمة</td><td>أكل مصري 24س</td></tr>
+<tr><td>كافيهات</td><td>فرشة كافيه</td><td>هضبة أم السيد</td><td>شيشة، غروب، اطلالة</td></tr>
+<tr><td>مستشفيات</td><td>مستشفى شرم الدولي</td><td>طريق السلام</td><td>طوارئ 24س - 122</td></tr>
+</tbody></table>
+</div></div>
+
+<div class="box"><h2><i class="fa fa-list"></i> سجل الطلبات المحفوظة</h2><div id="logDiv" style="max-height:150px;overflow:auto"></div>
+<button class="btn b-danger" style="padding:5px 14px;margin-top:8px;font-size:11px" onclick="localStorage.removeItem('sinai_logs');renderLog()">مسح السجل</button></div>
+
 </div>
 
 <script>
-const chatEl=document.getElementById('chat'), inpEl=document.getElementById('inp'), micEl=document.getElementById('mic');
-function q(t){inpEl.value=t;send();}
-function add(t,cls){const d=document.createElement('div');d.className='msg '+cls;d.innerHTML=t;chatEl.appendChild(d);chatEl.scrollTop=chatEl.scrollHeight;}
-function speak(t){try{speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(t.replace(/<[^>]*>/g,''));u.lang='ar-EG';u.rate=0.95;speechSynthesis.speak(u);}catch(e){}}
-function send(){
- let v=inpEl.value.trim(); if(!v) return; add(v,'user'); inpEl.value='';
- setTimeout(()=>{ai(v)},500);
+function quickAsk(t){document.getElementById('qInput').value=t;sendMsg();}
+function addMsg(t,c){const el=document.createElement('div');el.className='msg '+c;el.innerHTML=t;document.getElementById('chat').appendChild(el);document.getElementById('chat').scrollTop=9999;}
+function speakText(t){try{speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(t.replace(/<[^>]*>/g,''));u.lang='ar-EG';u.rate=0.95;speechSynthesis.speak(u);}catch(e){}}
+function sendMsg(){
+ let v=document.getElementById('qInput').value.trim(); if(!v) return; addMsg(v,'user'); document.getElementById('qInput').value='';
+ setTimeout(()=>handleAI(v),500);
 }
-function ai(l){
- l=l.toLowerCase(); let a='';
- if(l.includes('جوع')||l.includes('اكل')||l.includes('مطعم')) a='يا قائد انت جعان؟ 😋 عندك <b>فارس</b> سي فود في السوق القديم جامد، و <b>المصريين</b> مشويات في نعمة، و <b>البلدي</b> فاتح 24 ساعة. تحب أحجزلك فين وكم فرد؟';
- else if(l.includes('بحر')||l.includes('شاطئ')||l.includes('بسين')||l.includes('غطس')) a='البحر النهاردة تحفة 🌊 الشاطئ الخاص 250 متر بس 5 دقايق مشي، فيه مرجان للسنوركلينج يجنن. البسين شغال لحد 6. أظبطلك شازلونج على البحر؟';
- else if(l.includes('فرشة')||l.includes('كافيه')||l.includes('شيشة')) a='فرشة كافيه ده المزاج كله ☕ هضبة أم السيد، أحلى غروب في شرم، قعدة بدوي وشيشة. تاكسي 10 دقايق 80 جنيه. أطلبلك تاكسي للمغرب؟';
- else if(l.includes('تاكسي')||l.includes('مواصلات')) a='التاكسي قدام الفندق 24 ساعة 🚕 نعمة 50-80ج، سوهو 100ج، السوق 70ج. قولي رايح فين ورقم غرفتك؟';
+function botReply(t){addMsg(t,'bot');speakText(t);}
+function handleAI(q){
+ let l=q.toLowerCase(), a='';
+ if(l.includes('جوع')||l.includes('اكل')||l.includes('مطعم')) a='لو جعان يا قائد عندك <b>فارس</b> سي فود في السوق القديم شوربته عالمية، و <b>المصريين</b> مشويات في نعمة، و <b>البلدي</b> فاتح 24س أكل مصري أصيل. تحب أحجزلك فين وكم فرد؟';
+ else if(l.includes('بحر')||l.includes('شاطئ')||l.includes('بسين')||l.includes('غطس')) a='البحر تحفة النهاردة 🌊 الشاطئ 250م بس 5 دقايق مشي، مرجان يجنن للسنوركلينج. البسين لحد 6 المغرب. أظبطلك شازلونج؟';
+ else if(l.includes('فرشة')||l.includes('كافيه')||l.includes('شيشة')) a='فرشة كافيه المزاج كله ☕ هضبة أم السيد، أحلى غروب في شرم، قعدة بدوي وشيشة ومشروبات. تاكسي 10د بـ80ج. أطلبلك تاكسي للمغرب؟';
+ else if(l.includes('تاكسي')) a='التاكسي قدام الفندق 24س 🚕 نعمة 50-80ج، سوهو 100ج، السوق 70ج. قولي رايح فين ورقم غرفتك؟';
  else if(l.includes('واي فاي')||l.includes('wifi')||l.includes('نت')) a='الواي فاي مجاني 📶 الشبكة <b>FourSeasons-Guest</b> الباسورد رقم غرفتك + اسمك، مثال 101ahmed';
  else if(l.includes('مستشفى')||l.includes('دكتور')||l.includes('طوارئ')) a='ألف سلامة ❤️ مستشفى شرم الدولي طريق السلام 24س - طوارئ 122. لو محتاج دكتور يطلع الغرفة قولي رقم غرفتك حالا';
  else if(l.includes('سبا')||l.includes('مساج')) a='تدلع؟ 💆 السبا من 9 لـ 8: سويدي 900ج، ملكي 1200ج، جاكوزي 500ج. قولي النوع ورقم الغرفة أحجزلك';
- else a=`فهمتك بتقول "${l}" 😉 أنا أقدر أساعدك في: مطاعم، بحر، فرشة، تاكسي، واي فاي، مستشفى، سبا. احكيلي بالعامية زي ما بتكلمني.`;
- add(a,'bot'); speak(a);
+ else a=`فهمت بتقول "${q}" 😉 أقدر أساعدك في: مطاعم، بحر، فرشة، تاكسي، واي فاي، مستشفى، سبا. احكيلي بالعامية.`;
+ botReply(a);
 }
-let rec, listen=false;
-function mic(){
- if(!('webkitSpeechRecognition' in window||'SpeechRecognition' in window)){add('المتصفح مش بيدعم المايك، اكتب كتابة 😊','bot');return;}
+function savePillow(){const p=document.getElementById('pillowType').value,t=document.getElementById('roomTemp').value,o=document.getElementById('pillowOut');o.style.display='block';o.innerText='✅ تم الحفظ: '+p+' + '+t+'°C';log('وسادة: '+p+' + حرارة '+t);botReply('تمام ظبطتلك '+p+' وحرارة '+t+' وهتوصلك الغرفة كمان 5 دقايق 🛏️');}
+function calcDist(){const v=document.getElementById('destSel').value,o=document.getElementById('distOut');o.style.display='block';const m={beach:'الشاطئ: 250م (5د مشي 🚶)',spa:'السبا: 100م (دقيقة 🧘)',pool:'البسين: 150م (دقيقتين 🏊)',restaurant:'المطعم: 50م (أقل من دقيقة 🍽️)'};o.innerText=m[v];}
+function saveGreen(){const c=document.getElementById('greenChk').checked,d=document.getElementById('dndSel').value,o=document.getElementById('greenOut');o.style.display='block';o.innerText='تم الحفظ: خضراء '+(c?'مفعلة 🌱':'لا')+' - '+d;log('برنامج أخضر: '+(c?'نعم':'لا')+' - '+d);}
+function addRequest(){const n=document.getElementById('guestName').value,r=document.getElementById('guestRequest').value,s=document.getElementById('reqStatus');if(!n||!r){s.innerText='اكتب الاسم والطلب';s.style.color='red';return;}s.innerText='✅ تم التسجيل!';s.style.color='#2ed573';log(n+' طلب: '+r);document.getElementById('guestName').value='';document.getElementById('guestRequest').value='';botReply('طلبك '+r+' للغرفة '+n+' اتسجل وهيوصل حالا ✅');}
+function addSpa(){const sel=document.getElementById('spaSel'),room=document.getElementById('spaRoom').value,o=document.getElementById('spaOut');if(!room){o.style.display='block';o.innerHTML='<span style=color:#ff4757>اكتب رقم الغرفة</span>';return;}o.style.display='block';o.innerText='✅ حجز '+sel.options[sel.selectedIndex].text+' للغرفة '+room;log('حجز سبا: '+sel.options[sel.selectedIndex].text+' غرفة '+room);botReply('حجزتلك '+sel.options[sel.selectedIndex].text+' للغرفة '+room+' 💆');}
+function log(t){let ls=JSON.parse(localStorage.getItem('sinai_logs')||'[]');ls.unshift({time:new Date().toLocaleString('ar-EG'),text:t});localStorage.setItem('sinai_logs',JSON.stringify(ls));renderLog();}
+function renderLog(){let ls=JSON.parse(localStorage.getItem('sinai_logs')||'[]');document.getElementById('logDiv').innerHTML=ls.map(l=>`<div class=todo>${l.time} - ${l.text}</div>`).join('')||'لا يوجد طلبات';}
+renderLog();
+let rec,listening=false;
+function toggleMic(){
+ if(!('webkitSpeechRecognition' in window||'SpeechRecognition' in window)){botReply('المتصفح مش بيدعم المايك، اكتب كتابة 😊');return;}
  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
- if(!rec){rec=new SR(); rec.lang='ar-EG'; rec.onresult=e=>{inpEl.value=e.results[0][0].transcript; send();}; rec.onend=()=>{micEl.style.background='#222'; listen=false};}
- if(!listen){rec.start(); micEl.style.background='var(--accent)'; micEl.style.color='#000'; listen=true; add('🎤 سامعك... اتكلم','bot');}else{rec.stop();}
+ if(!rec){rec=new SR();rec.lang='ar-EG';rec.onresult=e=>{document.getElementById('qInput').value=e.results[0][0].transcript;sendMsg();};rec.onend=()=>{document.getElementById('micBtn').style.background='#222';listening=false;};}
+ if(!listening){rec.start();document.getElementById('micBtn').style.background='var(--accent)';listening=true;addMsg('🎤 سامعك... اتكلم','bot');}else{rec.stop();}
 }
 </script>
 </body>
