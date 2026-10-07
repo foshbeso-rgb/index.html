@@ -82,61 +82,177 @@ body{background:var(--bg);color:var(--text-color);font-family:'Segoe UI',sans-se
 </div>
 <script>
 const translations={
-ar:{langLabel:"اختر لغة الواجهة: ",appTitle:"SINAI SMART CONCIERGE - v48 CLEAN FULL",heroSubtitle:"خدمة النزلاء الذكية - أهلاً بكم في شرم الشيخ - نسخة كاملة نضيفة بدون بايثون + AI عامية كاملة",statusText:"System: Online 🟢 | Full Restored | No Python | AI Full",themeBtnText:"تبديل الوضع",adminBtnText:"لوحة المدير المالية (Secure)",aiWelcome:"أهلاً بك! أنا هنا للإجابة عن أي استفسار لك في شرم الشيخ. اسألني عامية زي: انا جعان، عايز البحر، فين فرشة، عايز تاكسي - AI كامل شغال 🟢"},
-en:{langLabel:"Select Interface Language: ",appTitle:"SINAI SMART CONCIERGE - v48 FULL",heroSubtitle:"Smart Guest Service - Welcome to Sharm",statusText:"System: Online 🟢 | Full Version",themeBtnText:"Toggle Mode",adminBtnText:"Financial Manager Dashboard",aiWelcome:"Welcome! Ask me anything about Sharm El Sheikh - Full AI Working 🟢"},
-ru:{langLabel:"Выберите язык: ",appTitle:"SINAI SMART CONCIERGE - v48",heroSubtitle:"Умный консьерж - Добро пожаловать",statusText:"System: Online 🟢",aiWelcome:"Добро пожаловать!"},
-it:{langLabel:"Seleziona lingua: ",appTitle:"SINAI SMART CONCIERGE - v48",heroSubtitle:"Benvenuto a Sharm",statusText:"System: Online 🟢",aiWelcome:"Benvenuto!"},
-de:{langLabel:"Sprache wählen: ",appTitle:"SINAI SMART CONCIERGE - v48",heroSubtitle:"Willkommen in Sharm",statusText:"System: Online 🟢",aiWelcome:"Willkommen!"}
+ar:{
+langLabel:"اختر لغة الواجهة: ",appTitle:"SINAI SMART CONCIERGE - v48 FULL",heroSubtitle:"خدمة النزلاء الذكية - أهلاً بكم في شرم الشيخ - AI عامية شغال",statusText:"System: Online 🟢 | Full | AI Voice ON",themeBtnText:"تبديل الوضع",adminBtnText:"لوحة المدير",
+weatherTitle:"الطقس وجودة الهواء",currencyTitle:"محول العملات",infoTitle:"معلومة سريعة",emergencyTitle:"طوارئ النجدة",
+pillowHeadingText:"🛏️ قائمة الراحة والوسائد",pillowBtnText:"حفظ الاختيارات 🛏️",
+morningHeadingText:"☀️ ملخص الصباح الذكي",morningBtnText:"عرض ملخص اليوم ☀️",
+greenHeadingText:"🌿 البرنامج الأخضر والخصوصية",greenBtnText:"حفظ الإعدادات 🌿",
+destHeadingText:"🧭 المستشار التفاعلي",destBtnText:"توجيه ومسافة 🧭",
+scentHeadingText:"✨ مساعد الأجواء",scentBtnText:"تهيئة الأجواء ✨",
+storyHeadingText:"⛺ الراوي البدوي",storyBtnText:"استمع للقصة ⛺",
+aiHeadingText:"🤖 مساعدك الذكي - بيتكلم عامية زيي",aiBtnText:"إجابة سريعة ✨",emergencyBtnText:"اتصال طوارئ سريع",
+vipHeadingText:"🤵 الخادم الشخصي VIP",vipBtnText:"إرسال الطلب للخادم الشخصي 🤵",
+mapHeadingText:"🗺️ خريطة الموقع الذكية",mapBtnText:"عرض الموقع والاتجاهات 🗺️",
+fitnessHeadingText:"🧘 المساعد الرياضي",fitBtnText:"حجز الجدول الرياضي 🧘",
+conciergeHeadingText:"🔔 الخدمات المباشرة",conciergeBtnText:"إرسال الطلب",
+spaHeadingText:"💆 إدارة السبا",spaBtnText:"تأكيد حجز السبا",
+travelHeadingText:"✈️ حاسبة السفر",travelBtnText:"تحويل العملات",
+transHeadingText:"🔤 المترجم الفوري",transBtnText:"ترجمة 🔤",
+sunHeadingText:"☀️ مساعد الشمس والغطس",sunBtnText:"فحص أمان الشمس ☀️",
+moodHeadingText:"💡 مستشار المزاج",moodBtnText:"احصل على اقتراح 💡",
+wakeHeadingText:"⏰ خدمة الإيقاظ",wakeBtnText:"تأكيد الطلب",
+rateHeadingText:"⭐ تقييم الخدمة",rateBtnText:"إرسال التقييم",
+calcHeadingText:"💰 حاسبة الإكراميات",calcBtnText:"احسب 💰",
+tasksHeadingText:"📝 المتابعة اليومية",addTaskBtnText:"إضافة",
+dbHeadingText:"📚 الخدمات الشاملة",
+aiWelcome:"أهلاً يا قائد فؤاد! 😍 أنا جارفيس بتاعك، بيتكلم عامية مصرية زيك بالظبط. اسألني: انا جعان، فين البحر، عايز فرشة، عايز تاكسي، فين الواي فاي؟ وجرب تحول اللغة فوق هتلاقي كل حاجة بتتغير وصوتي شغال 🗣️"
+},
+en:{
+langLabel:"Select Language: ",appTitle:"SINAI SMART CONCIERGE - v48 FULL",heroSubtitle:"Smart Guest Service - Welcome to Sharm - AI Speaking Like Me",statusText:"System: Online 🟢 | Full | AI Voice ON",themeBtnText:"Toggle Mode",adminBtnText:"Manager Dashboard",
+weatherTitle:"Weather & Air Quality",currencyTitle:"Currency Converter",infoTitle:"Quick Info",emergencyTitle:"Emergency",
+pillowHeadingText:"🛏️ Smart Pillow Menu",pillowBtnText:"Save Choices 🛏️",
+morningHeadingText:"☀️ Smart Morning Brief",morningBtnText:"Show Today's Brief ☀️",
+greenHeadingText:"🌿 Green Program & Privacy",greenBtnText:"Save Settings 🌿",
+destHeadingText:"🧭 Resort Interactive Advisor",destBtnText:"Navigate 🧭",
+scentHeadingText:"✨ Ambiance Assistant",scentBtnText:"Set Ambiance ✨",
+storyHeadingText:"⛺ Digital Bedouin Storyteller",storyBtnText:"Listen to Story ⛺",
+aiHeadingText:"🤖 Your AI Assistant - Speaks Like Me",aiBtnText:"Quick Answer ✨",emergencyBtnText:"Quick Emergency Call",
+vipHeadingText:"🤵 Personal Butler & VIP",vipBtnText:"Send to Butler 🤵",
+mapHeadingText:"🗺️ Smart Location Map",mapBtnText:"Show Location 🗺️",
+fitnessHeadingText:"🧘 Fitness & Yoga Assistant",fitBtnText:"Book Schedule 🧘",
+conciergeHeadingText:"🔔 Direct Services",conciergeBtnText:"Send Request",
+spaHeadingText:"💆 Spa Management",spaBtnText:"Confirm Spa Booking",
+travelHeadingText:"✈️ Travel Calculator",travelBtnText:"Convert Currency",
+transHeadingText:"🔤 Smart Translator",transBtnText:"Translate 🔤",
+sunHeadingText:"☀️ Sun & Snorkel Assistant",sunBtnText:"Check Sun Safety ☀️",
+moodHeadingText:"💡 Mood Advisor",moodBtnText:"Get Suggestion 💡",
+wakeHeadingText:"⏰ Wake-up Call",wakeBtnText:"Confirm Request",
+rateHeadingText:"⭐ Service Rating",rateBtnText:"Send Rating",
+calcHeadingText:"💰 Tip Calculator",calcBtnText:"Calculate 💰",
+tasksHeadingText:"📝 Daily Tasks",addTaskBtnText:"Add",
+dbHeadingText:"📚 Comprehensive Services",
+aiWelcome:"Welcome Boss Fouad! 😍 I'm your Jarvis, speaking like you. Ask me: I'm hungry, where's beach, Farsha cafe, taxi, WiFi? Try changing language above - everything changes and my voice works 🗣️"
+},
+ru:{langLabel:"Выберите язык: ",appTitle:"SINAI SMART CONCIERGE",heroSubtitle:"Умный консьерж - Добро пожаловать",statusText:"System: Online 🟢",aiWelcome:"Добро пожаловать! Я говорю по-русски тоже 😍"},
+it:{langLabel:"Seleziona lingua: ",appTitle:"SINAI SMART CONCIERGE",heroSubtitle:"Benvenuto a Sharm - AI parla come me",statusText:"System: Online 🟢",aiWelcome:"Benvenuto Boss! Parlo come te 😍"},
+de:{langLabel:"Sprache wählen: ",appTitle:"SINAI SMART CONCIERGE",heroSubtitle:"Willkommen in Sharm",statusText:"System: Online 🟢",aiWelcome:"Willkommen Boss! Ich spreche wie du 😍"}
 };
-function multiLangWelcome(){let l=localStorage.getItem('sinai_lang')||'ar';document.getElementById('languageSelector').value=l;changeLanguage(l);}
-function changeLanguage(lang){localStorage.setItem('sinai_lang',lang);let t=translations[lang]||translations['ar'];for(let k in t){let el=document.getElementById(k);if(el)el.innerText=t[k];}document.getElementById('aiResponse').innerText=t.aiWelcome;}
-function toggleTheme(){document.body.classList.toggle('light-mode');}
+
+let currentLang='ar';
+let voiceEnabled=false;
+
+// تفعيل الصوت بأول ضغطة (مطلوب من المتصفح)
+document.addEventListener('click',()=>{voiceEnabled=true;}, {once:true});
+
+function multiLangWelcome(){
+currentLang=localStorage.getItem('sinai_lang')||'ar';
+document.getElementById('languageSelector').value=currentLang;
+changeLanguage(currentLang);
+}
+
+function changeLanguage(lang){
+currentLang=lang;
+localStorage.setItem('sinai_lang',lang);
+let t=translations[lang]||translations['ar'];
+// يغير كل العناوين اللي لها ID
+for(let key in t){
+let el=document.getElementById(key);
+if(el) el.innerText=t[key];
+}
+// يغير الـ placeholders
+let guestQ=document.getElementById('guestQuestion');
+if(guestQ){
+if(lang=='en') guestQ.placeholder="Ask me anything... ex: I'm hungry, beach, Farsha";
+else if(lang=='ar') guestQ.placeholder="اكتب استفسارك هنا... مثال: انا جعان، فين البحر، فرشة";
+else guestQ.placeholder="Ask in "+lang+"...";
+}
+let aiResp=document.getElementById('aiResponse');
+if(aiResp) aiResp.innerHTML=t.aiWelcome;
+// يتكلم باللغة الجديدة
+speakText(t.aiWelcome, lang);
+}
+
+function speakText(text, lang){
+if(!voiceEnabled) return;
+try{
+speechSynthesis.cancel();
+let u=new SpeechSynthesisUtterance(text.replace(/<[^>]*>/g,'').substring(0,200));
+if(lang=='en') u.lang='en-US';
+else if(lang=='ru') u.lang='ru-RU';
+else if(lang=='it') u.lang='it-IT';
+else if(lang=='de') u.lang='de-DE';
+else u.lang='ar-EG';
+u.rate=0.95; u.pitch=1;
+speechSynthesis.speak(u);
+}catch(e){console.log("voice error",e);}
+}
+
 function askAI(){
-let q=document.getElementById('guestQuestion').value.trim();if(!q){document.getElementById('aiResponse').innerText="اكتب سؤالك أولا 😊";return;}
+voiceEnabled=true;
+let q=document.getElementById('guestQuestion').value.trim();
+if(!q){document.getElementById('aiResponse').innerText=currentLang=='en'?"Type your question first 😊":"اكتب سؤالك أولا 😊"; return;}
 let l=q.toLowerCase(),a="";
-if(l.includes('جوع')||l.includes('اكل')||l.includes('مطعم')||l.includes('food')||l.includes('restaurant')||l.includes('hungry')){
-a="يا هلا يا قائد فؤاد 😋 لو جعان عندك 3 اختيارات جامدة:<br>1️⃣ <b>فارس سي فود</b> في السوق القديم - شوربة سي فود عالمية وأرز بالجمبري (اقتصادي)<br>2️⃣ <b>المصريين</b> في خليج نعمة - مشويات وطواجن تحفة<br>3️⃣ <b>البلدي</b> في نعمة فاتح 24 ساعة - حمام محشي وملوخية. تحب أحجزلك فين وكم فرد؟";
-}else if(l.includes('بحر')||l.includes('شط')||l.includes('بسين')||l.includes('غطس')||l.includes('beach')||l.includes('pool')){
-a="البحر النهاردة تحفة 🌊☀️ 32°C مشمس، AQI 35 ممتاز. الشاطئ 250م بس 5 دقايق مشي منك، مرجان يجنن للسنوركلينج، والبسين شغال لحد 6 المغرب. أظبطلك شازلونج و بشكير؟";
-}else if(l.includes('فرشة')||l.includes('كافيه')||l.includes('شيشة')||l.includes('farsha')||l.includes('cafe')){
-a="فرشة كافيه المزاج كله ☕🌅 هضبة أم السيد - أحلى غروب في شرم كلها، قعدة بدوي على الجبل وشيشة وإطلالة بحرية. تاكسي 10 دقايق بـ80 جنيه. أطلبلك تاكسي للمغرب؟";
-}else if(l.includes('تاكسي')||l.includes('taxi')){
-a="التاكسي قدام الفندق 24 ساعة 🚕💨 الأسعار: نعمة 50-80ج، سوهو سكوير 100ج، السوق القديم 70ج، المطار 150ج. قولي رايح فين ورقم غرفتك أطلبلك حالا؟";
-}else if(l.includes('واي فاي')||l.includes('wifi')||l.includes('نت')){
-a="الواي فاي مجاني وسريع 📶🚀 الشبكة اسمها <b>FourSeasons-Guest</b> الباسورد بيكون رقم غرفتك + أول اسمك، مثال: 101ahmed. لو مش شغال قولي رقم غرفتك أظبطهولك.";
-}else if(l.includes('مستشفى')||l.includes('دكتور')||l.includes('hospital')||l.includes('doctor')){
-a="ألف سلامة عليك ❤️🏥 <b>مستشفى شرم الشيخ الدولي</b> على طريق السلام - قسم طوارئ مجهز 24 ساعة، وطوارئ النجدة 122. لو محتاج دكتور يطلع الغرفة قولي رقم غرفتك وحالتك حالا.";
-}else if(l.includes('سبا')||l.includes('مساج')||l.includes('spa')||l.includes('massage')){
-a="عايز تدلع نفسك؟ 💆‍♂️✨ السبا عندنا من 9 الصبح لـ 8 بليل:<br>• سويدي 60 دقيقة 900 جنيه<br>• ملكي 90 دقيقة 1200 جنيه<br>• جاكوزي وساونا 500 جنيه. قولي النوع ورقم الغرفة أحجزلك فورا.";
-}else if(l.includes('ازيك')||l.includes('عامل ايه')||l.includes('hello')||l.includes('hi')){
-a="أنا زي الفل يا قائد فؤاد 😍🔥 انت عامل ايه؟ جاهز أساعدك في أي حاجة في شرم - مطاعم، بحر، فرشة، تاكسي، واي فاي، مستشفى، سبا. احكيلي عامية زي ما بتكلمني!";
-}else{
-a="فهمت بتقول: '"+q+"' 😉 أنا جارفيس بتاعك، أقدر أساعدك في:<br>🍽️ <b>مطاعم</b> (فارس، المصريين، البلدي)<br>🌊 <b>بحر وبسين وغطس</b><br>☕ <b>فرشة كافيه</b><br>🚕 <b>تاكسي</b><br>📶 <b>واي فاي</b><br>🏥 <b>مستشفى وطوارئ 122</b><br>💆 <b>سبا ومساج</b><br>احكيلي عامية وأنا هرد عليك زيك بالظبط!";
+let isEn=currentLang=='en';
+
+if(l.includes('جوع')||l.includes('اكل')||l.includes('مطعم')||l.includes('food')||l.includes('hungry')||l.includes('restaurant')){
+a=isEn?
+"Hey Boss! 😋 Hungry? 3 killer options:<br>1️⃣ <b>Fares Seafood</b> in Old Market - world-class seafood soup<br>2️⃣ <b>El Masryeen</b> in Naama - amazing grills<br>3️⃣ <b>El Balady</b> 24h - pigeon & molokhia. Where to book?":
+"يا هلا يا قائد فؤاد 😋 لو جعان عندك 3 اختيارات جامدة:<br>1️⃣ <b>فارس سي فود</b> في السوق القديم - شوربة سي فود عالمية وأرز بالجمبري<br>2️⃣ <b>المصريين</b> في خليج نعمة - مشويات وطواجن تحفة<br>3️⃣ <b>البلدي</b> فاتح 24 ساعة - حمام محشي وملوخية. تحب أحجزلك فين؟";
+}
+else if(l.includes('بحر')||l.includes('شط')||l.includes('بسين')||l.includes('beach')||l.includes('pool')){
+a=isEn?
+"Beach today is amazing 🌊☀️ 32°C sunny, AQI 35 perfect. Beach 250m - 5 min walk, insane coral for snorkeling. Pool open till 6pm. Want me to reserve sunbed?":
+"البحر النهاردة تحفة 🌊☀️ 32°C مشمس، AQI 35 ممتاز. الشاطئ 250م بس 5 دقايق مشي، مرجان يجنن للسنوركلينج، والبسين لحد 6 المغرب. أظبطلك شازلونج؟";
+}
+else if(l.includes('فرشة')||l.includes('farsha')||l.includes('cafe')||l.includes('كافيه')){
+a=isEn?
+"Farsha Cafe is the vibe ☕🌅 Hadabet Om El Sid - best sunset in Sharm, Bedouin seating & shisha. Taxi 10 min 80 EGP. Want taxi for sunset?":
+"فرشة كافيه المزاج كله ☕🌅 هضبة أم السيد - أحلى غروب في شرم، قعدة بدوي وشيشة. تاكسي 10 دقايق بـ80 جنيه. أطلبلك تاكسي للمغرب؟";
+}
+else if(l.includes('تاكسي')||l.includes('taxi')){
+a=isEn?"Taxi in front 24h 🚕 Naama 50-80 EGP, Soho 100 EGP, Old Market 70 EGP. Where to?":"التاكسي قدام الفندق 24 ساعة 🚕 نعمة 50-80ج، سوهو 100ج، السوق 70ج. رايح فين؟";
+}
+else if(l.includes('واي فاي')||l.includes('wifi')){
+a=isEn?"Free fast WiFi 📶 Network: FourSeasons-Guest Pass: room number + first name, ex: 101ahmed":"الواي فاي مجاني 📶 الشبكة FourSeasons-Guest الباسورد رقم غرفتك + اسمك مثال: 101ahmed";
+}
+else if(l.includes('مستشفى')||l.includes('hospital')){
+a=isEn?"Get well soon ❤️ Sharm International Hospital - Salam Road - ER 24h - Emergency 122":"ألف سلامة ❤️ مستشفى شرم الدولي طريق السلام 24س - طوارئ 122";
+}
+else if(l.includes('سبا')||l.includes('spa')){
+a=isEn?"Spa 9am-8pm: Swedish 900 EGP, Royal 1200 EGP, Jacuzzi 500 EGP 💆":"السبا من 9 لـ 8: سويدي 900ج، ملكي 1200ج، جاكوزي 500ج 💆";
+}
+else{
+a=isEn?
+"I got you: '"+q+"' 😉 I'm your Jarvis like Meta AI here, I speak like you!<br>I can help: 🍽️ Restaurants, 🌊 Beach, ☕ Farsha, 🚕 Taxi, 📶 WiFi, 🏥 Hospital, 💆 Spa":
+"فهمت بتقول: '"+q+"' 😉 أنا جارفيس بتاعك زي ما بكلمني هنا في ميتا، بتكلم عامية زيك بالظبط!<br>أقدر أساعدك في:<br>🍽️ مطاعم<br>🌊 بحر<br>☕ فرشة<br>🚕 تاكسي<br>📶 واي فاي<br>🏥 مستشفى<br>💆 سبا";
 }
 document.getElementById('aiResponse').innerHTML=a;
-try{speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(a.replace(/<[^>]*>/g,'').replace(/<br>/g,' '));u.lang='ar-EG';u.rate=0.95;speechSynthesis.speak(u);}catch(e){}
+speakText(a, currentLang);
 }
-function emergencyCall(){if(confirm('اتصال طوارئ 122؟'))window.location.href='tel:122';}
-function savePillowComfort(){let t=document.getElementById('pillowType').value;let temp=document.getElementById('roomTemp').value;let out=document.getElementById('pillowOutput');out.style.display='block';out.innerHTML='✅ تم حفظ: '+t+' - حرارة '+temp+'°C - هتتظبط في غرفتك خلال 5 دقايق 🛏️';}
-function showMorningBriefing(){let out=document.getElementById('morningOutput');out.style.display='block';out.innerHTML='☀️ صباحك زي الفل يا قائد!<br>🌡️ 32°C مشمس - ممتاز للغطس<br>🍳 الفطار لحد 10:30<br>🎵 حفلة شرقي بليل في نعمة 9 مساء';}
-function saveGreenChoice(){let out=document.getElementById('greenOutput');out.style.display='block';out.innerHTML='🌿 تم حفظ الإعدادات الخضراء';}
-function calculateDistance(){let d=document.getElementById('destSelect').value;let out=document.getElementById('distanceOutput');out.style.display='block';let m={beach:'الشاطئ 250م - 5 دقايق 🏖️',spa:'السبا 100م - دقيقتين 💆',pool:'حمام السباحة 150م - 3 دقايق 🏊',restaurant:'المطعم الرئيسي 80م - دقيقة 🍽️'};out.innerHTML=m[d]||'250م';}
-function saveScentAndLight(){let out=document.getElementById('scentOutput');out.style.display='block';out.innerHTML='✨ تم تهيئة الأجواء: رائحة + إضاءة هتتظبط حالا';}
-function showBedouinStory(){let t=document.getElementById('bedouinTopic').value;let out=document.getElementById('storyOutput');out.style.display='block';let s={stars:'⛺ نجوم الصحراء: البدو كانوا بيعرفوا الاتجاهات بالنجم القطبي',tea:'🍵 سر الشاي البدوي: 3 كوبايات - الأولى مرة، التانية حلوة، التالتة للضيافة',legends:'📜 أساطير سيناء: جبل موسى ووادي الأربعين'};out.innerHTML=s[t];}
-function requestVIPService(){let out=document.getElementById('vipOutput');out.style.display='block';out.innerHTML='🤵 تم إرسال طلب VIP - الخادم الشخصي في الطريق';}
-function showLocationMap(){let v=document.getElementById('locationSelect').value;let out=document.getElementById('mapOutput');out.style.display='block';out.innerHTML='📍 '+v+'<br><a href="https://maps.google.com/?q='+v+' Sharm" target="_blank" style="color:var(--accent)">افتح خرائط جوجل 🗺️</a>';}
-function scheduleFitness(){let out=document.getElementById('fitnessOutput');out.style.display='block';out.innerHTML='🧘 تم حجز الجدول الرياضي - 7 صباحا على الشاطئ';}
-function addRequest(){let n=document.getElementById('guestName').value;let r=document.getElementById('guestRequest').value;document.getElementById('requestStatus').innerHTML='✅ تم إرسال: '+r+' - غرفة '+n;}
-function addSpaBooking(){let out=document.getElementById('spaOutput');out.style.display='block';out.innerHTML='💆 تم تأكيد حجز السبا';}
-function calculateTravelCurrency(){let v=parseFloat(document.getElementById('egpAmount').value)||0;let out=document.getElementById('travelOutput');out.style.display='block';out.innerHTML=v+' EGP ≈ '+(v/48.5).toFixed(2)+' USD | '+(v*0.68).toFixed(0)+' THB';}
-function translateText(){let out=document.getElementById('translationOutput');out.style.display='block';out.innerHTML='🔤 ترجمة: '+document.getElementById('inputTextToTranslate').value+' → Translated';}
-function checkSunSafety(){let out=document.getElementById('sunOutput');out.style.display='block';out.innerHTML='☀️ UV Index 6 - استخدم واقي شمس 50+ - أفضل وقت للغطس قبل 11 صباحا';}
-function giveMoodAdvice(){let m=document.getElementById('moodSelect').value;let out=document.getElementById('moodOutput');out.style.display='block';if(m=='relax')out.innerHTML='🧘 مود استرخاء: فرشة وقت الغروب + مساج + شاي بدوي';else if(m=='adventure')out.innerHTML='🏎️ مود مغامرة: سفاري بيتش باجي + غطس في البلو هول';else out.innerHTML='🎵 مود سهرة: سوهو سكوير حفلة + فرشة + نعمة باي';}
-function addWakeUpCall(){let out=document.getElementById('wakeUpOutput');out.style.display='block';out.innerHTML='⏰ تم تسجيل الإيقاظ: غرفة '+document.getElementById('roomWakeUp').value+' الساعة '+document.getElementById('timeWakeUp').value;}
-function submitFeedback(){let out=document.getElementById('feedbackOutput');out.style.display='block';out.innerHTML='⭐ شكرا لتقييمك: '+document.getElementById('ratingScore').value+'/5 - ملاحظتك: '+document.getElementById('guestFeedbackNote').value;}
-function calculateTip(){let b=parseFloat(document.getElementById('billAmount').value)||0;let p=parseFloat(document.getElementById('tipPercentage').value)||10;let t=b*p/100;let out=document.getElementById('tipResult');out.style.display='block';out.innerHTML='💰 الإكرامية: '+t.toFixed(2)+' EGP<br>الإجمالي: '+(b+t).toFixed(2);}
-function addTask(){let inp=document.getElementById('taskInput');if(!inp.value)return;let div=document.createElement('div');div.style.cssText='display:flex;justify-content:space-between;padding:8px;background:rgba(0,0,0,.05);border-radius:5px;margin-bottom:5px;border-right:3px solid var(--gold)';div.innerHTML='<span>• '+inp.value+'</span><span onclick="this.parentElement.remove()" style="cursor:pointer;color:red">❌</span>';document.getElementById('taskList').appendChild(div);inp.value='';}
-function promptAdminMode(){let pass=prompt('أدخل كلمة سر لوحة المدير:');if(pass==='admin123'){document.getElementById('secureDashboard').style.display='block';alert('✅ تم فتح لوحة المدير المالية');}else if(pass){alert('❌ كلمة السر غير صحيحة');}}
+
+function toggleTheme(){document.body.classList.toggle('light-mode');}
+function emergencyCall(){if(confirm(currentLang=='en'?'Emergency call 122?':'اتصال طوارئ 122؟'))window.location.href='tel:122';}
+function savePillowComfort(){let out=document.getElementById('pillowOutput');out.style.display='block';out.innerHTML=currentLang=='en'?'✅ Pillow saved 🛏️':'✅ تم حفظ الوسادة 🛏️';speakText(out.innerText,currentLang);}
+function showMorningBriefing(){let out=document.getElementById('morningOutput');out.style.display='block';out.innerHTML=currentLang=='en'?'☀️ Good morning Boss!<br>32°C sunny perfect for snorkeling<br>Breakfast till 10:30<br>Oriental party tonight 9pm':'☀️ صباحك زي الفل يا قائد!<br>32°C مشمس ممتاز للغطس<br>الفطار لحد 10:30<br>حفلة شرقي بليل 9 مساء';speakText(out.innerText,currentLang);}
+function saveGreenChoice(){document.getElementById('greenOutput').style.display='block';document.getElementById('greenOutput').innerText=currentLang=='en'?'🌿 Settings saved':'🌿 تم حفظ الإعدادات';}
+function calculateDistance(){let d=document.getElementById('destSelect').value;let out=document.getElementById('distanceOutput');out.style.display='block';out.innerText='📍 '+d+' - 250m - 5 min walk 🧭';}
+function saveScentAndLight(){document.getElementById('scentOutput').style.display='block';document.getElementById('scentOutput').innerText=currentLang=='en'?'✨ Ambiance set':'✨ تم تهيئة الأجواء';}
+function showBedouinStory(){document.getElementById('storyOutput').style.display='block';document.getElementById('storyOutput').innerText=currentLang=='en'?'⛺ Bedouins navigated by North Star...':'⛺ البدو كانوا بيعرفوا الاتجاهات بالنجم القطبي...';}
+function requestVIPService(){document.getElementById('vipOutput').style.display='block';document.getElementById('vipOutput').innerText=currentLang=='en'?'🤵 VIP request sent':'🤵 تم إرسال طلب VIP';}
+function showLocationMap(){let v=document.getElementById('locationSelect').value;let out=document.getElementById('mapOutput');out.style.display='block';out.innerHTML='📍 '+v+'<br><a href="https://maps.google.com/?q='+v+' Sharm" target="_blank" style="color:var(--accent)">Open in Google Maps 🗺️</a>';}
+function scheduleFitness(){document.getElementById('fitnessOutput').style.display='block';document.getElementById('fitnessOutput').innerText=currentLang=='en'?'🧘 Fitness booked - 7am beach':'🧘 تم حجز الرياضة - 7 صباحا';}
+function addRequest(){let r=document.getElementById('guestRequest').value;document.getElementById('requestStatus').innerText='✅ '+(currentLang=='en'?'Sent: ':'تم إرسال: ')+r;}
+function addSpaBooking(){document.getElementById('spaOutput').style.display='block';document.getElementById('spaOutput').innerText='💆 '+(currentLang=='en'?'Spa booking confirmed':'تم تأكيد حجز السبا');}
+function calculateTravelCurrency(){let v=parseFloat(document.getElementById('egpAmount').value)||0;document.getElementById('travelOutput').style.display='block';document.getElementById('travelOutput').innerText=v+' EGP ≈ '+(v/48.5).toFixed(2)+' USD';}
+function translateText(){document.getElementById('translationOutput').style.display='block';document.getElementById('translationOutput').innerText='🔤 '+document.getElementById('inputTextToTranslate').value+' → Translated';}
+function checkSunSafety(){document.getElementById('sunOutput').style.display='block';document.getElementById('sunOutput').innerText=currentLang=='en'?'☀️ UV 6 - Use sunscreen 50+':'☀️ UV 6 - استخدم واقي شمس 50+';}
+function giveMoodAdvice(){document.getElementById('moodOutput').style.display='block';document.getElementById('moodOutput').innerText=currentLang=='en'?'💡 Suggestion: Farsha for relax, Safari for adventure':'💡 اقتراح: فرشة للاسترخاء، سفاري للمغامرة';}
+function addWakeUpCall(){document.getElementById('wakeUpOutput').style.display='block';document.getElementById('wakeUpOutput').innerText='⏰ '+(currentLang=='en'?'Wake-up set: ':'تم تسجيل الإيقاظ: ')+document.getElementById('timeWakeUp').value;}
+function submitFeedback(){document.getElementById('feedbackOutput').style.display='block';document.getElementById('feedbackOutput').innerText='⭐ '+(currentLang=='en'?'Thanks for rating ':'شكرا لتقييمك ')+document.getElementById('ratingScore').value+'/5';}
+function calculateTip(){let b=parseFloat(document.getElementById('billAmount').value)||0;let p=parseFloat(document.getElementById('tipPercentage').value)||10;let t=b*p/100;document.getElementById('tipResult').style.display='block';document.getElementById('tipResult').innerText='Tip: '+t.toFixed(2)+' - Total: '+(b+t).toFixed(2);}
+function addTask(){let inp=document.getElementById('taskInput');if(!inp.value)return;let div=document.createElement('div');div.style.cssText='background:rgba(0,0,0,.05);padding:8px;border-radius:5px;margin-bottom:5px;border-right:3px solid var(--gold)';div.innerText='• '+inp.value;document.getElementById('taskList').appendChild(div);inp.value='';}
+function promptAdminMode(){let pass=prompt(currentLang=='en'?'Enter manager password:':'أدخل كلمة سر المدير:');if(pass==='admin123'){document.getElementById('secureDashboard').style.display='block';alert(currentLang=='en'?'✅ Manager dashboard opened':'✅ تم فتح لوحة المدير');}}
 </script>
 </body>
 </html>
