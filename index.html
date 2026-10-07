@@ -1,162 +1,179 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SINAI SMART CONCIERGE - v49 Enhanced</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-:root{--gold:#D4AF37;--bg:#050505;--card:#111;--green:#2ed573;--accent:#00d2ff;--danger:#ff4757;--text-color:#fff;--border-color:#222}
-.light-mode{--gold:#997404;--bg:#f4f4f9;--card:#ffffff;--green:#26af5a;--accent:#0082b3;--danger:#d63031;--text-color:#333;--border-color:#ccc}
-body{background:var(--bg);color:var(--text-color);font-family:'Segoe UI',sans-serif;margin:0;padding:0;transition:all .3s}
-.container{max-width:1200px;margin:auto;padding:20px}
-.hero{text-align:center;padding:30px;background:linear-gradient(135deg,rgba(212,175,55,.1),#000);border-radius:25px;border:1px solid var(--gold);margin-bottom:25px}
-.box{background:var(--card);border-radius:20px;padding:20px;border:1px solid var(--border-color);margin-bottom:20px}
-.box h2{color:var(--gold);display:flex;align-items:center;gap:10px;font-size:18px;margin-top:0}
-.ai-chat{background:var(--bg);border:1px solid var(--accent);border-radius:15px;padding:15px}
-.ai-input{width:100%;padding:12px;border-radius:10px;border:1px solid var(--border-color);background:var(--card);color:var(--text-color);margin-bottom:10px;box-sizing:border-box}
-.ai-reply{background:rgba(0,210,255,.1);border-left:3px solid var(--accent);padding:12px;border-radius:5px;min-height:65px;font-size:13px;line-height:1.6}
-.btn-ask{width:100%;padding:12px;border-radius:10px;border:none;background:var(--accent);color:#000;font-weight:bold;cursor:pointer;margin-bottom:10px}
-.btn-danger{background:var(--danger);color:#fff}
-.btn-success{background:var(--green);color:#fff}
-.btn-theme{background:var(--gold);color:#000}
-.widget-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px;margin-top:15px}
-.form-control{width:100%;padding:10px;background:var(--card);border:1px solid var(--border-color);color:var(--text-color);border-radius:5px;margin-bottom:10px;box-sizing:border-box}
-.todo-item{display:flex;justify-content:space-between;align-items:center;background:rgba(0,0,0,.05);padding:8px;border-radius:5px;margin-bottom:5px;border-right:3px solid var(--gold)}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sinai Smart Concierge - v49</title>
+    <style>
+        :root {
+            --primary-color: #1a365d;
+            --accent-color: #319795;
+            --bg-color: #f7fafc;
+            --text-color: #2d3748;
+            --white: #ffffff;
+            --border-radius: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--white);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 15px;
+        }
+
+        header h1 {
+            color: var(--primary-color);
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        header p {
+            color: #718096;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        input[type="text"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        .btn-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        button {
+            background-color: var(--accent-color);
+            color: var(--white);
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #285e61;
+        }
+
+        .services-section {
+            margin-top: 25px;
+            background: #edf2f7;
+            padding: 20px;
+            border-radius: var(--border-radius);
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-    <div class="hero">
-        <h1>SINAI SMART CONCIERGE - v49 Enhanced</h1>
-        <p style="color:var(--gold);">كل حاجة قديمة + AI بيفهم عامية + حفظ الطلبات</p>
-        <div style="font-size:14px;color:var(--green);">System: Online + LocalStorage + Smart AI v49 🟢</div>
-        <button class="btn-ask btn-theme" onclick="document.body.classList.toggle('light-mode')" style="width:auto;padding:5px 15px;margin-top:10px;border-radius:15px;">تبديل الوضع</button>
-    </div>
 
-    <div class="box" style="border:2px solid var(--accent);">
-        <h2><i class="fa fa-robot"></i> المساعد الذكي الجديد - بيفهم عامية</h2>
-        <div class="ai-chat">
-            <input type="text" id="guestQuestion" class="ai-input" placeholder="جرب: انا جعان، عايز انزل البحر، فين فرشة، عايز تاكسي">
-            <button class="btn-ask" onclick="askAI()">إجابة ذكية ✨</button>
-            <div id="aiResponse" class="ai-reply" style="margin-top:15px;">أهلاً بيك! جرب: انا جعان - عايز شيشة - فين المستشفى - عايز تاكسي - الواي فاي كام</div>
-            <div style="margin-top:10px;display:flex;gap:5px;flex-wrap:wrap;">
-                <button onclick="quickAsk('انا جعان')" style="font-size:11px;padding:5px 10px;border-radius:15px;border:1px solid var(--gold);background:transparent;color:var(--gold);cursor:pointer;">انا جعان</button>
-                <button onclick="quickAsk('عايز انزل البحر')" style="font-size:11px;padding:5px 10px;border-radius:15px;border:1px solid var(--gold);background:transparent;color:var(--gold);cursor:pointer;">البحر</button>
-                <button onclick="quickAsk('فين فرشة كافيه')" style="font-size:11px;padding:5px 10px;border-radius:15px;border:1px solid var(--gold);background:transparent;color:var(--gold);cursor:pointer;">فرشة</button>
-                <button onclick="quickAsk('عايز تاكسي')" style="font-size:11px;padding:5px 10px;border-radius:15px;border:1px solid var(--gold);background:transparent;color:var(--gold);cursor:pointer;">تاكسي</button>
-                <button onclick="quickAsk('الواي فاي كام')" style="font-size:11px;padding:5px 10px;border-radius:15px;border:1px solid var(--gold);background:transparent;color:var(--gold);cursor:pointer;">واي فاي</button>
+    <div class="container">
+        <header>
+            <h1>Sinai Smart Concierge</h1>
+            <p>النظام الذكي للخدمات الفندقية واللوجستية - الإصدار 49</p>
+        </header>
+
+        <form id="conciergeForm">
+            <!-- حقل اسم الضيف -->
+            <div class="form-group">
+                <label for="guestName">اسم الضيف الكريم:</label>
+                <input type="text" id="guestName" name="guestName" placeholder="أدخل اسمك الكامل..." required>
             </div>
-        </div>
+
+            <!-- حقل رقم الغرفة -->
+            <div class="form-group">
+                <label for="roomNumber">رقم الغرفة أو الوحدة:</label>
+                <input type="text" id="roomNumber" name="roomNumber" placeholder="مثال: 304" required>
+            </div>
+
+            <!-- قسم الخدمات المباشرة -->
+            <div class="services-section">
+                <div class="form-group">
+                    <label for="serviceType">اختر نوع الخدمة المطلوبة:</label>
+                    <select id="serviceType" name="serviceType">
+                        <option value="room_service">خدمة الغرف (الطعام والشراب)</option>
+                        <option value="housekeeping">تنظيف وصيانة الغرفة</option>
+                        <option value="transportation">حجز مواصلات / رحلات</option>
+                        <option value="inquiry">استعلامات عامة</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="serviceNotes">ملاحظات إضافية:</label>
+                    <textarea id="serviceNotes" name="serviceNotes" rows="4" placeholder="اكتب تفاصيل طلبك هنا..."></textarea>
+                </div>
+            </div>
+
+            <!-- زر الإرسال -->
+            <div class="btn-container">
+                <button type="submit">إرسال الطلب</button>
+            </div>
+        </form>
     </div>
 
-    <div class="widget-grid">
-        <div class="box">
-            <h2><i class="fa fa-bed"></i> قائمة الوسائد</h2>
-            <select id="pillowType" class="form-control">
-                <option value="وسادة طبية">وسادة طبية</option>
-                <option value="ريش نعام">ريش نعام</option>
-                <option value="ميموري فوم">ميموري فوم</option>
-            </select>
-            <select id="roomTemp" class="form-control">
-                <option value="22">22°C</option>
-                <option value="20">20°C</option>
-                <option value="24">24°C</option>
-            </select>
-            <button class="btn-ask btn-theme" onclick="savePillowComfort()">حفظ 🛏️</button>
-            <div id="pillowOutput" class="ai-reply" style="display:none; margin-top:10px;"></div>
-        </div>
-        
-        <div class="box">
-            <h2><i class="fa fa-concierge-bell"></i> الخدمات المباشرة</h2>
-            <input type="text" id="guestName" class="form-control" placeholder="اسم / غرفة">
-            <input type="text" id="guestRequest" class="form-control" placeholder="طلبك">
-            <button class="btn-ask btn-success" onclick="addRequest()">إرسال وحفظ</button>
-            <div id="requestStatus" style="font-size:13px;color:var(--green);margin-top:5px;"></div>
-        </div>
-    </div>
+    <script>
+        document.getElementById('conciergeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const guestName = document.getElementById('guestName').value;
+            const roomNumber = document.getElementById('roomNumber').value;
+            
+            if(!guestName || !roomNumber) {
+                alert('يرجى تعبئة الحقول الأساسية (الاسم ورقم الغرفة).');
+                return;
+            }
 
-    <div class="box">
-        <h2><i class="fa fa-list"></i> سجل الطلبات المحفوظة</h2>
-        <div id="requestLog" style="max-height:200px;overflow:auto;font-size:12px;"></div>
-        <button class="btn-ask btn-danger" style="width:auto;padding:5px 15px;margin-top:10px;" onclick="localStorage.removeItem('sinai_logs');renderLog()">مسح السجل</button>
-    </div>
-</div>
+            alert(`شكراً لك يا ${guestName}! تم إرسال طلبك الخاص بغرفة رقم ${roomNumber} بنجاح، وستم التواصل معك فوراً.`);
+            this.reset();
+        });
+    </script>
 
-<script>
-function quickAsk(t){document.getElementById('guestQuestion').value=t;askAI();}
-
-function askAI(){
-    const q = document.getElementById('guestQuestion').value.trim().toLowerCase();
-    const div = document.getElementById('aiResponse');
-    if(!q){div.innerHTML="اكتب سؤالك من فضلك";return;}
-    div.innerHTML="جارفيس بيفكر... 🤖";
-    
-    const kb = [
-        {k:["اكل","جوع","مطعم","فارس","مصريين","غدا","عشا","فطار","hungry","food"], a:"🍽️ <b>الأكل:</b><br>- فارس سي فود (السوق القديم)<br>- المصريين (مشويات - خليج نعمة)<br>- البلدي 24 ساعة"},
-        {k:["بحر","شط","شاطئ","غطس","مسبح","بسين","pool","beach"], a:"🏖️ <b>البحر:</b> الشاطئ الخاص 250م (5 دق مشي). مرجان تحفة للغطس."},
-        {k:["فرشة","كافيه","شيشة","farsha","cafe"], a:"☕ <b>فرشة:</b> هضبة أم السيد - أحلى غروب في شرم. تاكسي 80ج."},
-        {k:["تاكسي","مواصلات","taxi"], a:"🚕 <b>تاكسي:</b> قدام الفندق 24س. نعمة 50-80ج، سوهو 100ج"},
-        {k:["واي فاي","نت","wifi"], a:"📶 <b>واي فاي:</b> FourSeasons-Guest - الباسورد رقم غرفتك + اسمك."},
-        {k:["مستشفى","دكتور","طوارئ","hospital"], a:"🏥 <b>مستشفى شرم الدولي</b> طريق السلام 24س - طوارئ 122"},
-        {k:["سبا","مساج","spa"], a:"💆 <b>سبا:</b> 9ص-8م - سويدي 900ج، ملكي 1200ج، جاكوزي 500ج"}
-    ];
-    
-    let best = null, ms = 0;
-    for(let it of kb){
-        let s = 0; 
-        for(let w of it.k){if(q.includes(w)) s++;} 
-        if(s > ms){ms = s; best = it;}
-    }
-    
-    setTimeout(()=>{ 
-        if(best && ms > 0){
-            div.innerHTML = best.a;
-        } else {
-            div.innerHTML = `سؤالك: "${q}"<br>أقدر أساعدك في: مطاعم، بحر، فرشة، تاكسي، واي فاي، مستشفى، سبا`;
-        }
-    }, 500);
-}
-
-function savePillowComfort(){
-    const p = document.getElementById('pillowType').value; 
-    const t = document.getElementById('roomTemp').value; 
-    const o = document.getElementById('pillowOutput'); 
-    o.innerHTML = `✅ تم الحفظ: ${p} + ${t}°C`; 
-    o.style.display = 'block'; 
-    saveToLog(`وسادة: ${p} + حرارة ${t}`);
-}
-
-function addRequest(){
-    const n = document.getElementById('guestName').value; 
-    const r = document.getElementById('guestRequest').value; 
-    const s = document.getElementById('requestStatus'); 
-    if(!n || !r){
-        s.innerText = "اكتب الاسم والطلب من فضلك"; 
-        s.style.color = "red"; 
-        return;
-    } 
-    s.style.color = "var(--green)";
-    s.innerText = "✅ تم الحفظ بنجاح!"; 
-    saveToLog(`${n}: طلب ${r}`); 
-    document.getElementById('guestName').value = ""; 
-    document.getElementById('guestRequest').value = "";
-}
-
-function saveToLog(txt){
-    let logs = JSON.parse(localStorage.getItem('sinai_logs') || "[]"); 
-    logs.unshift({time: new Date().toLocaleString('ar-EG'), text: txt}); 
-    localStorage.setItem('sinai_logs', JSON.stringify(logs)); 
-    renderLog();
-}
-
-function renderLog(){
-    let logs = JSON.parse(localStorage.getItem('sinai_logs') || "[]"); 
-    let h = logs.map(l => `<div class="todo-item"><span>${l.time} - ${l.text}</span></div>`).join('') || "لا يوجد طلبات مسجلة حالياً"; 
-    document.getElementById('requestLog').innerHTML = h;
-}
-
-renderLog();
-</script>
 </body>
 </html>
